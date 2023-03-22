@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from "react"
-import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
+//import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
+import { loadStripe, StripeElementsOptionsClientSecret } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import { getPublicKey } from 'utils/stripeutil'
 import * as testutil from 'utils/testutil'
@@ -11,7 +12,7 @@ const stripePromise = loadStripe(getPublicKey())
 
 const HomePage = () => {
   const router = useRouter()
-  const [options, setOptions] = useState<StripeElementsOptions|undefined>(undefined)
+  const [options, setOptions] = useState<StripeElementsOptionsClientSecret|undefined>(undefined)
   const [subscriptionId, setSubscriptionId] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
 
