@@ -9,7 +9,7 @@ const Header = ({title} : {title:string}) => {
 const HomePage = (props:Props) => {
   return (
     <div>
-      <Header title="vtecxnext テスト メニュー (develop)" />
+      <Header title="vtecxnext テスト メニュー" />
       <label>【getServerSideProps】 is logged in: {props.isLoggedin}</label>
       <br/>
       <br/>
@@ -24,6 +24,8 @@ const HomePage = (props:Props) => {
       <Link href='/stripe/subscription'>サブスクリプション テスト （決済とカード登録を同時に行う）</Link>
       <br/>
       <Link href='/stripe/checkout_subscription'>サブスクリプション テスト （カード登録を行った後、決済を行う）</Link>
+      <br/>
+      <Link href='/stripe/retrieve'>Stripe 各種検索</Link>
 
     </div>
   )
