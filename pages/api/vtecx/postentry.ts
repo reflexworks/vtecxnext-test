@@ -3,6 +3,15 @@ import * as vtecxnext from '@vtecx/vtecxnext'
 import { VtecxNextError } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
 
+// リクエストボディサイズ制限設定 (API Routesのデフォルトは4mb)
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '64mb'
+    }
+  }
+}
+
 const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   console.log(`[postentry] start. x-requested-with=${req.headers['x-requested-with']}`)
   // X-Requested-With ヘッダチェック
@@ -33,6 +42,13 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     res.end()
     return
   }
+  let cnt = 0
+  if (Array.isArray(feed)) {
+    cnt = feed.length
+  } else if ('feed' in feed && 'entry' in feed.feed) {
+    cnt = feed.feed.entry.length
+  }
+  console.log(`[postentry] count of entries=${cnt}`)
 
   try {
     resJson = await vtecxnext.post(req, res, feed, key, targetservice)

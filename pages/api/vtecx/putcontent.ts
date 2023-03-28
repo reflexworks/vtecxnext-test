@@ -4,9 +4,11 @@ import { VtecxNextError } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
 
 // 注) リクエストデータがバイナリデータの場合、必ず以下の設定を行う。
+// sizeLimitはvte.cxのAPサーバと合わせた。(API Routesのデフォルトは4mb)
 export const config = {
   api: {
     bodyParser: false,
+    sizeLimit: '64mb'
   },
 }
 

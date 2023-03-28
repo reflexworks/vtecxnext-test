@@ -11,7 +11,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   }
   // キーを取得
   const key = testutil.getParam(req, 'key')
-  const revision = testutil.getParamNumber(req, 'key')
+  const revision = testutil.getParamNumber(req, 'r')
   const targetservice:string = testutil.getParam(req, 'targetservice')
   console.log(`[deleteentry] key=${key} r=${revision} ${targetservice ? 'targetservice=' + targetservice : ''}`)
 

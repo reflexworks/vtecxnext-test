@@ -3,6 +3,15 @@ import * as vtecxnext from '@vtecx/vtecxnext'
 import { VtecxNextError } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
 
+// リクエストボディサイズ制限設定 (API Routesのデフォルトは4mb)
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '64mb'
+    }
+  }
+}
+
 const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   console.log(`[putentry] start. x-requested-with=${req.headers['x-requested-with']}`)
   // X-Requested-With ヘッダチェック
