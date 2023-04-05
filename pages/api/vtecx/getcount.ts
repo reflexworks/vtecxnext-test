@@ -10,6 +10,8 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     return
   }
   // リクエストパラメータ
+  // req.queryだとOR検索の綴じカッコ")"パラメータが消えてしまうので、urlの値を直接リクエストする。
+  /*
   let key = ''
   let param = ''
   for (const tmpkey in req.query) {
@@ -18,6 +20,28 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     } else {
       param = `${param}${param ? '&' : '?'}${tmpkey}=${req.query[tmpkey]}`
     }
+  }
+  */
+  const key = testutil.getParam(req, 'key')
+  // key以外のURLパラメータをparamにセットする
+  const requestUrl:string = req.url ?? ''
+  let idx = requestUrl.indexOf('?key=')
+  let param = ''
+  if (idx == -1) {
+    // keyの前の条件を取得
+    idx = requestUrl.indexOf('&key=')
+    param = requestUrl.substring(requestUrl.indexOf('?') + 1, idx)
+  }
+  const startIdx = idx + 5
+  const idx2 = requestUrl.indexOf('&', startIdx)
+  if (idx2 >= startIdx) {
+    if (param) {
+      param += '&'
+    }
+    param += requestUrl.substring(idx2 + 1)
+  }
+  if (param) {
+    param = '?' + decodeURIComponent(param)
   }
   const targetservice:string = testutil.getParam(req, 'targetservice')
   console.log(`[getcount] key=${key} param=${param} ${targetservice ? 'targetservice=' + targetservice : ''}`)
