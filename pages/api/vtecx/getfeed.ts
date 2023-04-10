@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import * as vtecxnext from '@vtecx/vtecxnext'
 import { VtecxNextError } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
-import { ApiRouteTestError } from 'utils/testutil'
 
 const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   console.log(`[getfeed] start. x-requested-with=${req.headers['x-requested-with']} url=${req.url} query=${JSON.stringify(req.query)}`)
@@ -45,7 +44,8 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     param = '?' + decodeURIComponent(param)
   }
   const targetservice:string = testutil.getParam(req, 'targetservice')
-  console.log(`[getfeed] key=${key} param=${param} ${targetservice ? 'targetservice=' + targetservice : ''}`)
+  const type:string = testutil.getParam(req, 'type')
+  console.log(`[getfeed] key=${key} param=${param}${targetservice ? ' targetservice=' + targetservice : ''}${type ? ' type=' + type : ''}`)
 
   // フィード取得
   let resStatus:number
@@ -53,8 +53,24 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   try {
     const requesturi = `${key}${param}`
     //console.log(`[getFeed] requesuri=${requesturi}`)
-    resJson = await vtecxnext.getFeed(req, res, requesturi, targetservice)
-    resStatus = resJson ? 200 : 204
+    if (type === 'response') {
+      // type=response の場合、getFeedResponse を実行する。(戻り値にstatus、headerがある。)
+      // カーソルを取得する場合はこちらを使用する。
+      const vtecxRes:vtecxnext.VtecxResponse = await vtecxnext.getFeedResponse(req, res, requesturi, targetservice)
+      resJson = vtecxRes.data
+      resStatus = vtecxRes.status
+      if (vtecxRes.header) {
+        for (const name in vtecxRes.header) {
+          const val = vtecxRes.header[name]
+          console.log(`[getfeed] vtecxRes.header name=${name} value=${val}`)
+          res.setHeader(name, val)
+        }
+      }
+
+    } else {
+      resJson = await vtecxnext.getFeed(req, res, requesturi, targetservice)
+      resStatus = resJson ? 200 : 204
+    }
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
