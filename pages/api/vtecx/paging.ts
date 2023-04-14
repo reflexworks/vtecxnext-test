@@ -23,7 +23,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     } else if (tmpkey === 'n') {
       num = testutil.toNumber(req.query[tmpkey])
     } else {
-      param = `${param}${param ? '&' : '?'}${tmpkey}=${req.query[tmpkey]}`
+      param = `${param}${param ? '&' : '?'}${encodeURIComponent(tmpkey)}${req.query[tmpkey] ? '=' + encodeURIComponent(testutil.toString(req.query[tmpkey])) : ''}`
     }
   }
   const requesturi = `${key}${param}`
@@ -61,7 +61,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     resJson = {feed : {'title' : resErrMsg}}
   }
 
-  console.log(`[paging] end. resJson=${resJson}`)
+  console.log(`[paging] end. resJson=${JSON.stringify(resJson)}`)
   res.status(resStatus)
   resJson ? res.json(resJson) : 
   res.end()

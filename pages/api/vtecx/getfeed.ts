@@ -41,7 +41,8 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     param += requestUrl.substring(idx2 + 1)
   }
   if (param) {
-    param = '?' + decodeURIComponent(param)
+    //param = '?' + decodeURIComponent(param)
+    param = '?' + param
   }
   const targetservice:string = testutil.getParam(req, 'targetservice')
   const type:string = testutil.getParam(req, 'type')
@@ -52,7 +53,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   let resJson:any
   try {
     const requesturi = `${key}${param}`
-    //console.log(`[getFeed] requesuri=${requesturi}`)
+    console.log(`[getFeed] requesuri=${requesturi}`)
     if (type === 'response') {
       // type=response の場合、getFeedResponse を実行する。(戻り値にstatus、headerがある。)
       // カーソルを取得する場合はこちらを使用する。
