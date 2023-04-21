@@ -5,9 +5,11 @@
  * @param urlparam URLパラメータ
  * @param body リクエストデータ
  * @param headers リクエストヘッダ
+ * @param mode リクエストモード
+ * @param specifyHost ホストを指定する場合true
  * @returns レスポンスJSON
  */
-export const requestApi = async (method:string, apiAction:string, urlparam:string, body?:any, headers?:any, mode?:RequestMode): Promise<any> => {
+export const requestApi = async (method:string, apiAction:string, urlparam:string, body?:any, headers?:any, mode?:RequestMode, specifyHost?:boolean): Promise<any> => {
   console.log(`[requestApi] start. method=${method} apiAction=${apiAction} urlparam=${urlparam}`)
   const reqHeaders:any = headers ? headers : {}
   reqHeaders['X-Requested-With'] = 'XMLHttpRequest'
@@ -20,7 +22,7 @@ export const requestApi = async (method:string, apiAction:string, urlparam:strin
     requestInit['mode'] = mode
   }
 
-  const url = `/api/vtecx/${apiAction}?${urlparam ? urlparam : ''}`
+  const url = `${specifyHost ? process.env.NEXT_PUBLIC_VTECXNEXT_URL : ''}/api/vtecx/${apiAction}?${urlparam ? urlparam : ''}`
   console.log(`[requestApi] url=${url} requestInit=${JSON.stringify(requestInit)}`)
   let data
   try {
