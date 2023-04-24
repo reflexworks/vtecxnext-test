@@ -36,6 +36,20 @@ const HomePage = (props:StaticProps) => {
       <br/>
       <label>【deleteEntry】 {String(props.retDeleteEntry)}</label>
       <br/>
+      <label>【deleteFolder】 {String(props.retDeleteFolder)}</label>
+      <br/>
+      <label>【allocids】 {props.allocids}</label>
+      <br/>
+      <label>【addids】 {String(props.addids)}</label>
+      <br/>
+      <label>【getids】 {String(props.getids)}</label>
+      <br/>
+      <label>【setids】 {String(props.setids)}</label>
+      <br/>
+      <label>【rangeids】 {String(props.rangeids)}</label>
+      <br/>
+      <label>【getRangeids】 {String(props.getRangeids)}</label>
+      <br/>
       <label>【contentUrl】 {props.contentUrl}</label>
       <br/>
       <label> * base64</label>
@@ -72,9 +86,15 @@ interface StaticProps {
   feed: any,
   count: number|null,
   retDeleteEntry: boolean,
+  retDeleteFolder: boolean,
+  allocids: string,
+  addids: number|null,
+  getids: number|null,
+  setids: number|null,
+  rangeids: string,
+  getRangeids: string,
   contentUrl: string,
-  imgsrc: string,
-  
+  imgsrc: string,  
 }
 
 // ビルド時、または一定時間ごとに呼び出される
@@ -112,27 +132,23 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   console.log(`[getStaticProps] count end.`)
   const retDeleteEntry = await vtecxnext.deleteEntry(undefined, undefined, postUri)
   console.log(`[getStaticProps] deleteEntry end.`)
+  const allocids = await vtecxnext.allocids(undefined, undefined, testEntryUri, 3)
+  console.log(`[getStaticProps] allocids end.`)
+  const addids = await vtecxnext.addids(undefined, undefined, testEntryUri, 5)
+  console.log(`[getStaticProps] allocids end.`)
+  const getids = await vtecxnext.getids(undefined, undefined, testEntryUri)
+  console.log(`[getStaticProps] allocids end.`)
+  const rangeids = await vtecxnext.rangeids(undefined, undefined, testEntryUri, '5001-8000')
+  console.log(`[getStaticProps] allocids end.`)
+  const setids = await vtecxnext.setids(undefined, undefined, testEntryUri, 6000)
+  console.log(`[getStaticProps] allocids end.`)
+  const getRangeids = await vtecxnext.getRangeids(undefined, undefined, testEntryUri)
+  console.log(`[getStaticProps] allocids end.`)
+  const retDeleteFolder = await vtecxnext.deleteFolder(undefined, undefined, testEntryUri)
   const contentUrl = await vtecxnext.getcontenturl(contentKey)
   console.log(`[getStaticProps] getcontenturl end.`)
   const imgsrc = await getImageSrc(contentUrl)
   console.log(`[getStaticProps] imgsrc=${imgsrc}`)
-
-// now
-// log
-// getEntry
-// getFeed
-// count
-// post
-// put
-// deleteEntry
-// deleteFolder
-// allocids
-// addids
-// getids
-// setids
-// rangeids
-// getRangeids
-// getcontenturl
 
   // { props: { posts } } を返すことで、Blog コンポーネントはビルド時に
   // `posts` を prop として受け取ります。
@@ -146,6 +162,13 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
       feed,
       count,
       retDeleteEntry,
+      retDeleteFolder,
+      allocids,
+      addids,
+      getids,
+      setids,
+      rangeids,
+      getRangeids,
       contentUrl,
       imgsrc,
 
