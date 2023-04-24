@@ -38,12 +38,24 @@ const HomePage = (props:StaticProps) => {
       <br/>
       <label>【contentUrl】 {props.contentUrl}</label>
       <br/>
+      <label> * base64</label>
+      <br/>
       <Image
         src={props.imgsrc}
-        alt="getStaticProps content test"
+        alt="getStaticProps content test (base64)"
         width={200}
         height={200}
       />
+      <br/>
+      <label> * url (next.config.js に images.domains=(host配列) の指定が必要)</label>
+      <br/>
+      <Image
+        src={props.contentUrl}
+        alt="getStaticProps content test (url)"
+        width={200}
+        height={200}
+      />
+
  
     </div>
   )
@@ -105,6 +117,23 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   const imgsrc = await getImageSrc(contentUrl)
   console.log(`[getStaticProps] imgsrc=${imgsrc}`)
 
+// now
+// log
+// getEntry
+// getFeed
+// count
+// post
+// put
+// deleteEntry
+// deleteFolder
+// allocids
+// addids
+// getids
+// setids
+// rangeids
+// getRangeids
+// getcontenturl
+
   // { props: { posts } } を返すことで、Blog コンポーネントはビルド時に
   // `posts` を prop として受け取ります。
   return {
@@ -129,7 +158,7 @@ const getImageSrc = async (contentUrl:string):Promise<string> => {
   const headers:any = {}
   const VTECX_SERVICENAME = process.env.VTECX_SERVICENAME ?? ''
   if (VTECX_SERVICENAME) {
-    headers['X-SERVICENAME'] = VTECX_SERVICENAME  // localhostテスト用
+    headers['X-SERVICENAME'] = VTECX_SERVICENAME
   }
 
   const requestInit:RequestInit = {
