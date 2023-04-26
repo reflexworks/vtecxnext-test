@@ -1,25 +1,37 @@
-import Link from 'next/link'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { parseCookies } from 'nookies'
 
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
-const LineLink = () => {
-  const href = `${process.env.NEXT_PUBLIC_VTECXNEXT_URL}/api/vtecx/loginline`
-  return <p><Link href={href}>LINEログイン</Link></p>
+export const getServerSideProps:GetServerSideProps = async (context:GetServerSidePropsContext) => {
+  const { req, res } = context
+  const cookies = parseCookies({ req })
+  const sid = cookies.SID;
+
+  if (sid) {
+    // ログイン済み→メニュー画面
+    res.setHeader('location', '/vtecx_menu')
+    res.statusCode = 302
+    res.end()
+  } else {
+    // 未ログイン→LINEログイン
+    res.setHeader('location', '/api/vtecx/loginline')
+    res.statusCode = 302
+    res.end()
+  }
+  return { props: {} }
 }
 
 /**
  * ページ関数
  * @returns HTML
  */
- const HomePage = () => {
+const HomePage = () => {
 
   return (
     <div>
-      <Header title="ソーシャルログイン" />
-      <LineLink />
+      <label>リダイレクト画面</label>
     </div>
   )
 }
 
 export default HomePage
+
