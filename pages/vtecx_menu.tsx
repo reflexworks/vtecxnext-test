@@ -38,7 +38,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header title="vtecxnext テスト メニュー (develop)" />
+      <Header title="vtecxnext テスト メニュー" />
       <label>【useEffect】 is logged in: {isLoggedIn}</label>
       <br/>
       <br/>
