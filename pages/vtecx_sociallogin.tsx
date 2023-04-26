@@ -9,14 +9,12 @@ import { useEffect } from 'react'
 const HomePage = () => {
 
   const router = useRouter()
-  const query = router.query
 
   useEffect(() => {
     if (router.isReady) {
-      console.log(`[useEffect] state=${query.state} code=${query.code}`)
       redirect()
     }
-  }, [query, router])
+  }, [router])
 
   const redirect = async (reCaptchaToken?:string) => {
     console.log('[redirect] start.')
