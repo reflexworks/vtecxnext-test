@@ -1,30 +1,36 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { parseCookies } from 'nookies'
-
-export const getServerSideProps:GetServerSideProps = async (context:GetServerSidePropsContext) => {
-  const { req, res } = context
-  const cookies = parseCookies({ req })
-  const sid = cookies.SID;
-
-  if (sid) {
-    // ログイン済み→メニュー画面
-    res.setHeader('location', '/vtecx_menu')
-    res.statusCode = 302
-    res.end()
-  } else {
-    // 未ログイン→LINEログイン
-    res.setHeader('location', '/api/vtecx/loginline')
-    res.statusCode = 302
-    res.end()
-  }
-  return { props: {} }
-}
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 /**
  * ページ関数
  * @returns HTML
  */
 const HomePage = () => {
+
+  const router = useRouter()
+  const query = router.query
+
+  useEffect(() => {
+    if (router.isReady) {
+      console.log(`[useEffect] state=${query.state} code=${query.code}`)
+      redirect()
+    }
+  }, [query, router])
+
+  const redirect = async (reCaptchaToken?:string) => {
+    console.log('[redirect] start.')
+    const cookies = parseCookies()
+    const sid = cookies.SID;
+
+    if (sid) {
+      // ログイン済み→メニュー画面
+      router.replace('/vtecx_menu')
+    } else {
+      // 未ログイン→LINEログイン
+      router.replace('/api/vtecx/loginline')
+    }
+  }
 
   return (
     <div>

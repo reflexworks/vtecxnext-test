@@ -50,6 +50,7 @@ const Header = ({title} : {title:string}) => {
       setResult(retStr)
     }
   }
+
   return (
     <div>
       <Header title="ソーシャルログイン リダイレクト画面" />
