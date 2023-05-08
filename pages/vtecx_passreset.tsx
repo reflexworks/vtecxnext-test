@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import * as browserutil from 'utils/browserutil'
 
 const Header = ({title} : {title:string}) => {
