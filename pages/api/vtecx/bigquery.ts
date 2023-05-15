@@ -32,7 +32,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       console.log(`[bigquery] csv=${csv}`)
       if (!csv) {
         // 戻り値: JSON
-        const resData = await vtecxnext.getBQ(req, res, sql, values, parent)
+        const resData = await vtecxnext.execBQ(req, res, sql, values, parent)
         if (resData) {
           res.statusCode = 200
           res.json(resData)
@@ -62,7 +62,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       // BigQuery削除
       const tmpKey:string = testutil.getParam(req, 'key')
       const keys:string[] = tmpKey.split(',')
-      const async:boolean = testutil.hasParam(req, '_async')
+      const async:boolean = testutil.hasParam(req, 'async')
       const tablenamesStr:string = testutil.getParam(req, 'tablenames')
       const tablenames:any = testutil.getBqTablenames(tablenamesStr)
       const result = await vtecxnext.deleteBQ(req, res, keys, async, tablenames)
@@ -107,9 +107,9 @@ const getValues = (feed:any) => {
       const tmpVal = category.___label
       let val
       if (type) {
-        if (type === 'int' || type === 'float') {
+        if (type === 'number') {
           val = Number(tmpVal)
-        } else if (type === 'bool') {
+        } else if (type === 'boolean') {
           val = tmpVal.toLowerCase() === 'true'
           console.log(`[getValues] inputVal=${tmpVal} result=${val}`)
         } else {

@@ -268,7 +268,7 @@ const HomePage = (props:Props) => {
         "category" : [
           {
             "___label" : "「パラメータ値(任意)」",
-            "___term" : "「パラメータ型(任意)」"
+            "___term" : "「パラメータ型(string|number|boolean、デフォルトはstring)(任意)」"
           }, ...
         ]
     }}`,
