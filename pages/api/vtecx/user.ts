@@ -83,7 +83,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
     resJson = {feed : {'title' : resErrMsg}}
   }
 
-  console.log(`[user] end. resJson=${resJson}`)
+  console.log(`[user] end. resJson=${JSON.stringify(resJson)}`)
   res.status(resStatus)
   resJson ? res.json(resJson) : 
   res.end()
