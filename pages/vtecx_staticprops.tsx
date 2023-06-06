@@ -18,7 +18,7 @@ const HomePage = (props:StaticProps) => {
       />
 
 
-      <Header title="vtecxnext StaticProp テスト画面" />
+      <Header title="vtecxnext StaticProps テスト画面" />
       <br/>
       <label>【now】 {props.datetime}</label>
       <br/>
