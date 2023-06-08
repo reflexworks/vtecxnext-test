@@ -87,7 +87,7 @@ import { NextApiRequest } from 'next'
  */
  export const toNumber = (tmpVal:any): number => {
   let errMsg = `Not numeric. ${tmpVal}`
-  if (tmpVal) {
+  if (tmpVal !== null && tmpVal !== undefined && tmpVal !== '') {
     try {
       return Number(tmpVal)
     } catch (e) {
@@ -106,7 +106,7 @@ import { NextApiRequest } from 'next'
  */
  export const toBoolean = (tmpVal:string): boolean => {
   let errMsg = `Not boolean. ${tmpVal}`
-  if (tmpVal) {
+  if (tmpVal !== null && tmpVal !== undefined && tmpVal !== '') {
     try {
       return tmpVal.toLowerCase() === 'true'
     } catch (e) {
