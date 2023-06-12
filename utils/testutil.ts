@@ -52,7 +52,7 @@ import { NextApiRequest } from 'next'
  * @return stringの値
  */
  export const toString = (tmpVal:any): string => {
-  return tmpVal ? String(tmpVal) : ''
+  return !isBlank(tmpVal) ? String(tmpVal) : ''
 }
 
 /**
@@ -63,7 +63,7 @@ import { NextApiRequest } from 'next'
  */
  export const getParamNumber = (req:NextApiRequest, name:string): number|undefined => {
   const tmpVal = req.query[name]
-  if (!tmpVal) {
+  if (isBlank(tmpVal)) {
     return undefined
   }
   return toNumber(tmpVal)
@@ -87,7 +87,7 @@ import { NextApiRequest } from 'next'
  */
  export const toNumber = (tmpVal:any): number => {
   let errMsg = `Not numeric. ${tmpVal}`
-  if (tmpVal !== null && tmpVal !== undefined && tmpVal !== '') {
+  if (!isBlank(tmpVal)) {
     try {
       return Number(tmpVal)
     } catch (e) {
@@ -106,7 +106,7 @@ import { NextApiRequest } from 'next'
  */
  export const toBoolean = (tmpVal:string): boolean => {
   let errMsg = `Not boolean. ${tmpVal}`
-  if (tmpVal !== null && tmpVal !== undefined && tmpVal !== '') {
+  if (!isBlank(tmpVal)) {
     try {
       return tmpVal.toLowerCase() === 'true'
     } catch (e) {
@@ -174,6 +174,19 @@ export const getEntries = (data:any):Array<any>|null => {
     }
   }
   return null
+}
+
+/**
+ * null、undefined、空文字の判定
+ * @param val チェック値
+ * @returns null、undefined、空文字の場合true
+ */
+export const isBlank = (val:any): boolean => {
+  if (val === null || val === undefined || val === '') {
+    return true
+  }
+
+  return false
 }
 
 

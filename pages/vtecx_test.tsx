@@ -348,6 +348,12 @@ const HomePage = (props:Props) => {
       labelReqdata: '',
     },
     {
+      label: 'get message queue status',
+      value: 'messagequeue_get_status',
+      labelUrlparam: 'channel={チャネル}',
+      labelReqdata: '',
+    },
+    {
       label: 'send message queue',
       value: 'messagequeue_post',
       labelUrlparam: 'channel={チャネル}',
@@ -841,9 +847,13 @@ const HomePage = (props:Props) => {
       }
     } else if (action.startsWith('messagequeue_')) {
       const tmpAction = action.substring(13)
-      let tmpIdx = tmpAction.indexOf('_')
+      //console.log(`[request] 'messagequeue_' + '${tmpAction}'`)
+      const tmpIdx = tmpAction.indexOf('_')
       const idx = tmpIdx < 0 ? tmpAction.length : tmpIdx
       method = tmpAction.substring(0, idx)
+      if (tmpIdx >= 0) {
+        additionalParam = `type=${tmpAction.substring(idx + 1)}`
+      }
       apiAction = 'messagequeue'
       if (method === 'put' || method === 'post') {
         body = reqdata
@@ -966,7 +976,7 @@ const HomePage = (props:Props) => {
 
   return (
     <div>
-      <Header title="vtecxnext テスト (develop)" />
+      <Header title="vtecxnext テスト" />
       <label>【getServerSideProps】 is logged in: {props.isLoggedin}</label>
       <br/>
       <br/>

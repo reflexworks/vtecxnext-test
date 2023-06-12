@@ -14,14 +14,20 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   const method = req.method
   // パラメータを取得
   const channel:string = testutil.getParam(req, 'channel')
-  console.log(`[messagequeue] method=${method} channel=${channel}`)
+  const type:string = testutil.getParam(req, 'type')
+  console.log(`[messagequeue] method=${method} channel=${channel} type=${type}`)
   // セッション操作
   let resStatus:number = 200
   let resJson:any
   try {
     if (method === 'GET') {
-      // メッセージキュー受信
-      resJson = await vtecxnext.getMessageQueue(req, res, channel)
+      if (type === 'status') {
+        // メッセージキューステータス取得
+        resJson = await vtecxnext.getMessageQueueStatus(req, res, channel)
+      } else {
+        // メッセージキュー受信
+        resJson = await vtecxnext.getMessageQueue(req, res, channel)
+      }
       resStatus = resJson ? 200 : 204
 
     } else if (method === 'PUT') {
