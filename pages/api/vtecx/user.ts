@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import * as vtecxauth from '@vtecx/vtecxauth'
 import * as vtecxnext from '@vtecx/vtecxnext'
 import { VtecxNextError } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
@@ -51,6 +52,8 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
         resJson = await vtecxnext.activateusers(req, res, testutil.getRequestJson(req))
       } else if (type === 'deleteusers') {  // API RouteではDELETEメソッドでリクエストデータを受け取れなかった
         resJson = await vtecxnext.deleteusers(req, res, testutil.getRequestJson(req))
+      } else if (type === 'mergeoauthuser_line') {
+        resJson = await mergeoauthuserLine(req, res, testutil.getParam(req, 'account'), testutil.getParam(req, 'pass'))
       } else {
         console.log(`[user] invalid type. method=${method} type=${type}`)
         throw new ApiRouteTestError(400, `[user] invalid type. method=${method} type=${type}`)
@@ -87,6 +90,14 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   res.status(resStatus)
   resJson ? res.json(resJson) : 
   res.end()
+}
+
+const mergeoauthuserLine = async (req:NextApiRequest, res:NextApiResponse, account:string, pass:string):Promise<any> => {
+  const rxid = vtecxauth.getRXID(account, pass, 
+    process.env.VTECX_SERVICENAME ?? '', 
+    process.env.VTECX_APIKEY ?? '')
+    console.log(`[mergeoauthuserLine] start. account=${account} pass=${pass} serviceName=${process.env.VTECX_SERVICENAME ?? ''} apiKey=${process.env.VTECX_APIKEY ?? ''} rxid=${rxid}`)
+    return vtecxnext.mergeOAuthUserLine(req, res, rxid)
 }
 
 export default handler

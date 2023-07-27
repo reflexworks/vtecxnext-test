@@ -53,6 +53,8 @@ const HomePage = () => {
       <Link href='/vtecx_staticprops'>StaticProps テスト</Link> (vtecx_staticprops)
       <br/>
       <Link href='/vtecx_viewpdf'>PDF表示テスト</Link> (vtecx_viewpdf)
+      <br/>
+      <Link href='/vtecx_sociallogin_menu'>ソーシャルログイン メニュー</Link> (vtecx_sociallogin_menu)
 
       <br/>
       <br/>
@@ -67,7 +69,6 @@ const HomePage = () => {
       <br/>
       <br/>
       <Link href='/vtecx_menu_getserversideprops'>vtecxnext メニュー 【getServerSideProps】</Link> (vtecx_menu_getserversideprops)
-      <br/>
 
     </div>
   )

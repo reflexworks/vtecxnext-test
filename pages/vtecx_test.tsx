@@ -121,6 +121,12 @@ const HomePage = (props:Props) => {
       labelReqdata: '',
     },
     {
+      label: 'clear folder',
+      value: 'clearfolder',
+      labelUrlparam: 'key={親キー}[&async]',
+      labelReqdata: '',
+    },
+    {
       label: 'allocids',
       value: 'allocids',
       labelUrlparam: 'key={キー}&num={採番数}',
@@ -500,6 +506,12 @@ const HomePage = (props:Props) => {
       labelReqdata: '',
     },
     {
+      label: 'merge an existing user with a line user',
+      value: 'user_put_mergeoauthuser_line',
+      labelUrlparam: 'account={アカウント}&pass={パスワード}',
+      labelReqdata: '',
+    },
+    {
       label: 'userstatus',
       value: 'user_get_userstatus',
       labelUrlparam: '[account={アカウント}]',
@@ -793,7 +805,7 @@ const HomePage = (props:Props) => {
       body = reqdata
       apiAction = action
     } else if (action === 'deleteentry' || action === 'deletefolder' ||
-        action === 'deletecontent') {
+        action === 'clearfolder' || action === 'deletecontent') {
       method = 'DELETE'
       apiAction = action
     } else if (action.startsWith('session_')) {
