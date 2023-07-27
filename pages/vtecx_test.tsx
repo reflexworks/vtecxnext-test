@@ -487,7 +487,7 @@ const HomePage = (props:Props) => {
         {
             "contributor": [
                 {
-                    "uri": "urn:vte.cx:auth:{メールアドレス}"
+                    "uri": "urn:vte.cx:auth:{メールアドレス}(,{パスワード}(任意))"
                 }
             ],
             "title": "メールのタイトル(任意)",
