@@ -23,11 +23,13 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       let sql:string = ''
       let values:any[] = []
       let parent:string = ''
-      if (data && 'feed' in data) {
-        sql = data.feed.title
-        values = getValues(data)
-        parent = data.feed.subtitle
+      if (Array.isArray(data)) {
+        sql = data[0].title
+        values = getValues(data[0])
+        parent = data[0].subtitle
       }
+      console.log(`[bigquery] sql=${sql}`)
+      console.log(`[bigquery] sql values=${values}`)
       const csv = testutil.hasParam(req, 'csv')
       console.log(`[bigquery] csv=${csv}`)
       if (!csv) {
@@ -42,9 +44,12 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
         }
       } else {
         // 戻り値: CSV
+        console.log('[bigquery] queryBq csv start.')
         const csvname = testutil.getParam(req, 'csv')
+        console.log(`[bigquery] queryBq csvname=${csvname}`)
         const resData = await vtecxnext.getBQCsv(req, res, sql, values, csvname, parent)
-        res.statusCode = resData ? 200 : 204
+        //res.statusCode = resData ? 200 : 204
+        console.log('[bigquery] queryBq csv end.')
       }
       console.log('[bigquery] queryBq end.')
 
@@ -52,6 +57,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       // BigQuery登録
       const async:boolean = testutil.hasParam(req, 'async')
       const tablenamesStr:string = testutil.getParam(req, 'tablenames')
+      console.log(`[bigquery] postBq. async=${async} tablenamesStr=${tablenamesStr}`)
       const tablenames:any = testutil.getBqTablenames(tablenamesStr)
       const result = await vtecxnext.postBQ(req, res, testutil.getRequestJson(req), async, tablenames)
       const message = `post bigquery. ${async ? '(async)' : ''} result=${result}`
@@ -98,11 +104,11 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
 
 export default handler
 
-const getValues = (feed:any) => {
+const getValues = (entry:any) => {
   const values = []
   let idx = 0
-  if ('category' in feed.feed) {
-    for (const category of feed.feed.category) {
+  if ('category' in entry) {
+    for (const category of entry.category) {
       const type = category.___term
       const tmpVal = category.___label
       let val
@@ -111,7 +117,7 @@ const getValues = (feed:any) => {
           val = Number(tmpVal)
         } else if (type === 'boolean') {
           val = tmpVal.toLowerCase() === 'true'
-          console.log(`[getValues] inputVal=${tmpVal} result=${val}`)
+          console.log(`[bigquery][getValues] inputVal=${tmpVal} result=${val}`)
         } else {
           val = String(tmpVal)
         }

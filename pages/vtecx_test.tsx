@@ -268,7 +268,7 @@ const HomePage = (props:Props) => {
       label: 'get bigquery',
       value: 'bigquery_put',
       labelUrlparam: '[csv={ダウンロードファイル名]',
-      labelReqdata: `{"feed" : {
+      labelReqdata: `[{
         "title" : "「SQL」",
         "subtitle" : "「CSVヘッダ(任意)」",
         "category" : [
@@ -277,7 +277,36 @@ const HomePage = (props:Props) => {
             "___term" : "「パラメータ型(string|number|boolean、デフォルトはstring)(任意)」"
           }, ...
         ]
-    }}`,
+      }]`,
+    },
+    {
+      label: 'query rdb',
+      value: 'rdb_put_query',
+      labelUrlparam: '[csv={ダウンロードファイル名]',
+      labelReqdata: `[{
+        "title" : "「SQL」",
+        "subtitle" : "「CSVヘッダ(任意)」",
+        "category" : [
+          {
+            "___label" : "「パラメータ値(任意)」",
+            "___term" : "「パラメータ型(string|number|boolean、デフォルトはstring)(任意)」"
+          }, ...
+        ]
+      }]`,
+    },
+    {
+      label: 'exec rdb',
+      value: 'rdb_put_exec',
+      labelUrlparam: '',
+      labelReqdata: `[{
+        "title" : "「SQL」",
+        "category" : [
+          {
+            "___label" : "「パラメータ値(任意)」",
+            "___term" : "「パラメータ型(string|number|boolean、デフォルトはstring)(任意)」"
+          }, ...
+        ]
+      }, ... ]`,
     },
     {
       label: 'create pdf',
@@ -859,7 +888,7 @@ const HomePage = (props:Props) => {
       }
     } else if (action.startsWith('messagequeue_')) {
       const tmpAction = action.substring(13)
-      //console.log(`[request] 'messagequeue_' + '${tmpAction}'`)
+      console.log(`[request] 'messagequeue_' + '${tmpAction}'`)
       const tmpIdx = tmpAction.indexOf('_')
       const idx = tmpIdx < 0 ? tmpAction.length : tmpIdx
       method = tmpAction.substring(0, idx)
