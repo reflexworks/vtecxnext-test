@@ -36,6 +36,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
           // 戻り値: JSON
           const resData = await vtecxnext.queryRDB(req, res, sql, values, parent)
           if (resData) {
+            console.log(`[rdb] resData=${JSON.stringify(resData)}`)
             res.statusCode = 200
             res.json(resData)
           } else {
@@ -51,15 +52,16 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
           //res.statusCode = resData ? 200 : 204
           console.log('[rdb] queryRDBCsv csv end.')
         }
-        console.log('[rdb] queryRDBCsv end.')
       } else if (type === 'exec') {
         // 更新系SQL実行
+        const async:boolean = testutil.hasParam(req, 'async')
+        const isbulk:boolean = testutil.hasParam(req, 'bulk')
         const data = testutil.getRequestJson(req)
         if (Array.isArray(data)) {
           let sqls:string[] = getExecSqls(data)
           let values:any[][] = getExecSqlValues(data)
           // 戻り値: JSON
-          const resData = await vtecxnext.execRDB(req, res, sqls, values)
+          const resData = await vtecxnext.execRDB(req, res, sqls, values, async, isbulk)
           if (resData) {
             res.statusCode = 200
             res.json(resData)
