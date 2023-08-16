@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as vtecxnext from '@vtecx/vtecxnext'
-import * as lineutil from 'utils/lineutil'
+import * as lineutil from 'utils/webhook_lineutil'
 
 // 注) リクエストデータがバイナリデータの場合、必ず以下の設定を行う。
 export const config = {
@@ -141,7 +141,15 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
           await vtecxnext.log(req, res, `Error occured. ${msg}`, 'LINE Webhook')
         }
       }
+
+    } else if (eventType === 'join') {
+      // グループに追加
+
+    } else if (eventType === 'leave') {
+      // グループから削除
+
     }
+
   }
   
 

@@ -768,6 +768,15 @@ const HomePage = (props:Props) => {
       labelReqdata: '',
     },
     {
+      label: 'line broadcast message',
+      value: 'linemessage',
+      labelUrlparam: '',
+      labelReqdata: `[{
+        "title" : "「メッセージ」",
+        "rights" : "「チャネルアクセストークン(配列の先頭のみ指定)」"
+      }, ...]`,
+    },
+    {
       label: 'logout',
       value: 'logout',
       labelUrlparam: '',
@@ -979,6 +988,10 @@ const HomePage = (props:Props) => {
           body = reqdata
         }
       }
+    } else if (action === 'linemessage') {
+      method = 'POST'
+      apiAction = action
+      body = reqdata
     }
 
     if (method != null && apiAction != null) {

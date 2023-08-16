@@ -1,30 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import createHmac from 'create-hmac'
-import { FetchError } from '@vtecx/vtecxnext'
 
-//const LINE_MESSAGINGAPI_URL = 'https://api.line.me/v2/bot/message/push'
-const LINE_MESSAGINGAPI_URL = 'https://api.line.me/v2/bot/message/reply'
+const LINE_MESSAGINGAPI_URL_PUSHMSG = 'https://api.line.me/v2/bot/message/push'
+const LINE_MESSAGINGAPI_URL_BROADCAST = 'https://api.line.me/v2/bot/message/broadcast'
 const LINE_MESSAGINGAPI_METHOD = 'POST'
-
-/*
-リクエストがLINEプラットフォームから送られたことを確認するために、ボットサーバーでリクエストヘッダーのx-line-signatureに含まれる署名を検証します。
-
-検証の手順は以下のとおりです。
-
-チャネルシークレットを秘密鍵として、HMAC-SHA256アルゴリズムを使用してリクエストボディのダイジェスト値を取得します。
-ダイジェスト値をBase64エンコードした値と、リクエストヘッダーのx-line-signatureに含まれる署名が一致することを確認します。
-*/
-/*
-const checkSignature2 = (req:NextApiRequest) => {
-  const channelSecret = "..."; // Channel secret string
-  const body = "..."; // Request body string
-  const signature = crypto
-    .createHmac("SHA256", channelSecret)
-    .update(body)
-    .digest("base64");
-  // Compare x-line-signature request header and the signature
-}
-*/
 
 /**
  * LINEの署名検証
@@ -43,21 +22,98 @@ export const checkSignature = (req:NextApiRequest, buf:Buffer):boolean => {
   return lineSignature === lineSignatureVerify
 }
 
-export const fetchLine = (body:any):Promise<Response> => {
+/**
+ * LINEへプッシュメッセージを送信する.
+ * @param textMessage テキストメッセージ。文字列または文字列配列。
+ * @param to 送信先
+ * @param token チャネルアクセストークン
+ * @returns レスポンスデータ。正常の場合は{}
+ */
+export const pushTextMessage = async (textMessage:string|string[], to:string, token:string):Promise<any> => {
+  const messages = []
+  if (Array.isArray(textMessage)) {
+    for (const msg of textMessage) {
+      const val = {
+        'type': 'text',
+        'text': msg
+      }
+      messages.push(val)
+    }
+  } else {
+    const val = {
+      'type': 'text',
+      'text': textMessage
+    }
+    messages.push(val)
+  }
+
+  const body = {
+    'to' : to,
+    'messages' : messages
+  }
+
+  //console.log(`[lineutil pushTextMessage] body=${JSON.stringify(body)}`)
+
+  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_PUSHMSG, JSON.stringify(body), token)
+  return await response.json()
+}
+
+/**
+ * LINEへブロードキャストメッセージを送信する.
+ * @param textMessage テキストメッセージ。文字列または文字列配列。
+ * @param token チャネルアクセストークン
+ * @returns レスポンスデータ。正常の場合は{}
+ */
+export const broadcastMessage = async (textMessage:string|string[], token:string):Promise<any> => {
+  const messages = []
+  if (Array.isArray(textMessage)) {
+    for (const msg of textMessage) {
+      const val = {
+        'type': 'text',
+        'text': msg
+      }
+      messages.push(val)
+    }
+  } else {
+    const val = {
+      'type': 'text',
+      'text': textMessage
+    }
+    messages.push(val)
+  }
+
+  const body = {
+    'messages' : messages
+  }
+
+  //console.log(`[lineutil broadcastMessage] body=${JSON.stringify(body)} token=${token}`)
+
+  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_BROADCAST, JSON.stringify(body), token)
+  return await response.json()
+}
+
+/**
+ * LINEへfetch
+ * @param method method
+ * @param url URL
+ * @param body リクエストデータ
+ * @param token チャネルアクセストークン
+ * @returns レスポンス
+ */
+const fetchLine = (method:string, url:string, body:any, token:string):Promise<Response> => {
   const headers = {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESSTOKEN ?? ''}`,
+    Authorization: `Bearer ${token ?? ''}`,
   }
-  //headers['Content-Type'] = 'application/json'
  
   const requestInit:RequestInit = {
     body: body,
-    method: LINE_MESSAGINGAPI_METHOD,
+    method: method,
     headers: headers
   }
 
   try {
-    return fetch(LINE_MESSAGINGAPI_URL, requestInit)
+    return fetch(url, requestInit)
   } catch (e) {
     let errMsg:string
     if (e instanceof Error) {
@@ -67,7 +123,16 @@ export const fetchLine = (body:any):Promise<Response> => {
       errMsg = `Unexpected error.`
     }
     console.log(`[lineutil fetchLine] errMsg = ${errMsg}`)
-    throw new FetchError(errMsg)
+    throw new LineFetchError(errMsg)
   }
 }
 
+/**
+ * Fetch Error
+ */
+export class LineFetchError extends Error {
+  constructor(message:string) {
+    super(message)
+    this.name = 'LineFetchError'
+  }
+}
