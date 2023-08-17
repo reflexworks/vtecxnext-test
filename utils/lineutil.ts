@@ -3,17 +3,18 @@ import createHmac from 'create-hmac'
 
 const LINE_MESSAGINGAPI_URL_PUSHMSG = 'https://api.line.me/v2/bot/message/push'
 const LINE_MESSAGINGAPI_URL_BROADCAST = 'https://api.line.me/v2/bot/message/broadcast'
+const LINE_MESSAGINGAPI_URL_REPLY = 'https://api.line.me/v2/bot/message/reply'
 const LINE_MESSAGINGAPI_METHOD = 'POST'
 
 /**
  * LINEの署名検証
  * @param req リクエスト
  * @param buf リクエストデータ
+ * @param channelSecret チャネルシークレット
  * @returns LINEの署名が正しい場合true
  */
-export const checkSignature = (req:NextApiRequest, buf:Buffer):boolean => {
+export const checkSignature = (req:NextApiRequest, buf:Buffer, channelSecret:string):boolean => {
   const lineSignature = req.headers['x-line-signature']
-  const channelSecret = process.env.LINE_CHANNEL_SECRET ?? ''
   const requestBody = buf
   const lineSignatureVerify = createHmac('sha256', channelSecret)
     .update(requestBody)
@@ -51,10 +52,30 @@ export const pushTextMessage = async (textMessage:string|string[], to:string, to
     'to' : to,
     'messages' : messages
   }
-
   //console.log(`[lineutil pushTextMessage] body=${JSON.stringify(body)}`)
 
+  return await pushMessage(body, token)
+}
+
+/**
+ * LINEへプッシュメッセージを送信する.
+ * @param body メッセージと送信先
+ * @param token チャネルアクセストークン
+ * @returns レスポンスデータ。正常の場合は{}
+ */
+export const pushMessage = async (body:any, token:string):Promise<any> => {
   const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_PUSHMSG, JSON.stringify(body), token)
+  return await response.json()
+}
+
+/**
+ * LINEへリプライメッセージを送信する.
+ * @param body メッセージと送信先
+ * @param token チャネルアクセストークン
+ * @returns レスポンスデータ。正常の場合は{}
+ */
+export const replyMessage = async (body:any, token:string):Promise<any> => {
+  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_REPLY, JSON.stringify(body), token)
   return await response.json()
 }
 
@@ -86,7 +107,7 @@ export const broadcastMessage = async (textMessage:string|string[], token:string
     'messages' : messages
   }
 
-  //console.log(`[lineutil broadcastMessage] body=${JSON.stringify(body)} token=${token}`)
+  console.log(`[lineutil broadcastMessage] body=${JSON.stringify(body)} token=${token}`)
 
   const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_BROADCAST, JSON.stringify(body), token)
   return await response.json()
