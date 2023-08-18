@@ -64,7 +64,7 @@ export const pushTextMessage = async (textMessage:string|string[], to:string, to
  * @returns レスポンスデータ。正常の場合は{}
  */
 export const pushMessage = async (body:any, token:string):Promise<any> => {
-  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_PUSHMSG, JSON.stringify(body), token)
+  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_PUSHMSG, body, token)
   return await response.json()
 }
 
@@ -75,7 +75,7 @@ export const pushMessage = async (body:any, token:string):Promise<any> => {
  * @returns レスポンスデータ。正常の場合は{}
  */
 export const replyMessage = async (body:any, token:string):Promise<any> => {
-  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_REPLY, JSON.stringify(body), token)
+  const response = await fetchLine(LINE_MESSAGINGAPI_METHOD, LINE_MESSAGINGAPI_URL_REPLY, body, token)
   return await response.json()
 }
 

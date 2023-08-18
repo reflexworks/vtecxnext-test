@@ -126,7 +126,10 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
   console.log(`[LINE webhook] request data = ${JSON.stringify(data)}`)
   await vtecxnext.log(req, res, `name=${nameStr} request data = ${JSON.stringify(data)}`, 'LINE Webhook')
   if (!data || !data.events || data.events.length < 1) {
+    // LINE Webhook検証データは {"destination":"xxx","events":[]}
     // 処理終了
+    res.status(200)
+    res.end()
     return
   }
 
