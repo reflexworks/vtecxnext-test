@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest } from 'next/server'
 import createHmac from 'create-hmac'
 
 const LINE_MESSAGINGAPI_URL_PUSHMSG = 'https://api.line.me/v2/bot/message/push'
@@ -13,8 +13,8 @@ const LINE_MESSAGINGAPI_METHOD = 'POST'
  * @param channelSecret チャネルシークレット
  * @returns LINEの署名が正しい場合true
  */
-export const checkSignature = (req:NextApiRequest, buf:Buffer, channelSecret:string):boolean => {
-  const lineSignature = req.headers['x-line-signature']
+export const checkSignature = (req:NextRequest, buf:Uint8Array|string, channelSecret:string):boolean => {
+  const lineSignature = req.headers.get('x-line-signature')
   const requestBody = buf
   const lineSignatureVerify = createHmac('sha256', channelSecret)
     .update(requestBody)

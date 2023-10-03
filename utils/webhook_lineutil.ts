@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest } from 'next/server'
 import createHmac from 'create-hmac'
 import { FetchError } from '@vtecx/vtecxnext'
 
@@ -32,8 +32,8 @@ const checkSignature2 = (req:NextApiRequest) => {
  * @param buf リクエストデータ
  * @returns LINEの署名が正しい場合true
  */
-export const checkSignature = (req:NextApiRequest, buf:Buffer):boolean => {
-  const lineSignature = req.headers['x-line-signature']
+export const checkSignature = (req:NextRequest, buf:Uint8Array):boolean => {
+  const lineSignature = req.headers.get('x-line-signature')
   const channelSecret = process.env.LINE_CHANNEL_SECRET ?? ''
   const requestBody = buf
   const lineSignatureVerify = createHmac('sha256', channelSecret)

@@ -1,10 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  images: {
-    domains: ['terada-test-vtecxnext.vte.cx']
-  },
+  experimental: {
+    serverActions: true,
+    serverActionsBodySizeLimit: '64mb',
+  }  
 }
 
 module.exports = nextConfig

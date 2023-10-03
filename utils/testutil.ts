@@ -1,50 +1,4 @@
-import { NextApiRequest } from 'next'
-
-/**
- * リクエストデータを取得.
- * エラー発生時、ステータス400のApiRouteTestErrorをスローする。
- * @param req リクエスト
- * @return JSON
- */
- export const getRequestJson = (req:NextApiRequest): any => {
-  let json
-  try {
-    json = req.body ? JSON.parse(req.body) : null
-  } catch (e) {
-    let resErrMsg:string
-    if (e instanceof Error) {
-      const error:Error = e
-      resErrMsg = `${error.name}: ${error.message}`
-    } else {
-      resErrMsg = String(e)
-    }
-    throw new ApiRouteTestError(400, resErrMsg)
-  }
-  return json
-}
-
-/**
- * URLパラメータを取得し、string型で返す.
- * @param req リクエスト
- * @param name パラメータ名
- * @return パラメータ値
- */
- export const getParam = (req:NextApiRequest, name:string): string => {
-  const tmpVal = req.query[name]
-  return toString(tmpVal)
-}
-
-/**
- * URLパラメータがあるかどうか判定.
- * @param req リクエスト
- * @param name パラメータ名
- * @return URLパラメータがある場合true
- */
- export const hasParam = (req:NextApiRequest, name:string): boolean => {
-  const tmpVal = req.query[name]
-  //console.log(`[hasParam] ${name}=${tmpVal}`)
-  return tmpVal == undefined ? false : true
-}
+import { VtecxNext } from '@vtecx/vtecxnext'
 
 /**
  * 値をstring型で返す.
@@ -57,12 +11,12 @@ import { NextApiRequest } from 'next'
 
 /**
  * URLパラメータを取得し、number型で返す.
- * @param req リクエスト
+ * @param vtecxnext vtecxnext 内部にRequestを保持
  * @param name パラメータ名
  * @return パラメータ値
  */
- export const getParamNumber = (req:NextApiRequest, name:string): number|undefined => {
-  const tmpVal = req.query[name]
+ export const getParamNumber = (vtecxnext:VtecxNext, name:string): number|undefined => {
+  const tmpVal = vtecxnext.getParameter(name)
   if (isBlank(tmpVal)) {
     return undefined
   }
@@ -71,21 +25,22 @@ import { NextApiRequest } from 'next'
 
 /**
  * URLパラメータを取得し、number型で返す. 値の指定がない場合エラーを返す.
- * @param req リクエスト
+ * @param vtecxnext vtecxnext 内部にRequestを保持
  * @param name パラメータ名
  * @return パラメータ値
  */
- export const getParamNumberRequired = (req:NextApiRequest, name:string): number => {
-  const tmpVal = req.query[name]
+ export const getParamNumberRequired = (vtecxnext:VtecxNext, name:string): number => {
+  const tmpVal = vtecxnext.getParameter(name)
   return toNumber(tmpVal)
 }
 
 /**
- * 値をnumber型で返す.空はエラー.
+ * 値をnumber型で返す。空の場合、defaultValが指定されていなければエラー。
  * @param tmpVal 値
+ * @param defaultVal 値が指定されていない場合の返却値。この値が指定されていればエラーとしない。undefined指定は無効。エラーとなる。
  * @return numberの値
  */
- export const toNumber = (tmpVal:any): number => {
+ export const toNumber = (tmpVal:any, defaultVal?:number): number => {
   let errMsg = `Not numeric. ${tmpVal}`
   if (!isBlank(tmpVal)) {
     try {
@@ -95,6 +50,8 @@ import { NextApiRequest } from 'next'
         errMsg = e.message
       }
     }
+  } else if (defaultVal !== undefined) {
+    return defaultVal
   }
   throw new ApiRouteTestError(400, errMsg)
 }
@@ -187,6 +144,52 @@ export const isBlank = (val:any): boolean => {
   }
 
   return false
+}
+
+/**
+ * リクエストURLから指定されたパラメータを取り除いたクエリパラメータを返却.
+ * @param requestUrl リクエストURL
+ * @param names 除去対象パラメータ
+ * @returns 編集したクエリパラメータ
+ */
+export const removeParam = (requestUrl:string, names:string[]): string => {
+  const idx0 = requestUrl.indexOf('?')
+  if (idx0 < 0) {
+    return ''
+  }
+  let tmpQueryparam:string = requestUrl.substring(idx0 + 1)
+  //console.log(`[testutil removeParam] tmpQueryparam=${tmpQueryparam}`)
+
+  for (const name of names) {
+    if (tmpQueryparam.startsWith(`${name}=`)) {
+      // 指定パラメータが先頭の場合
+      const idx3 = tmpQueryparam.indexOf('&')
+      if (idx3 < 0) {
+        tmpQueryparam = ''
+      } else {
+        tmpQueryparam = tmpQueryparam.substring(idx3 + 1)
+      }
+    } else {
+      const idx = tmpQueryparam.indexOf(`&${name}=`)
+      if (idx > -1) {
+        let param = tmpQueryparam.substring(0, idx)
+        const startIdx = idx + name.length + 2
+        const idx2 = tmpQueryparam.indexOf('&', startIdx)
+        if (idx2 >= startIdx) {
+          if (param) {
+            param += '&'
+          }
+          param += tmpQueryparam.substring(idx2 + 1)
+        }
+        tmpQueryparam = param
+      }
+    }
+  }
+  if (tmpQueryparam) {
+    tmpQueryparam = '?' + tmpQueryparam
+  }
+  //console.log(`[testutil removeParam] end. tmpQueryparam=${tmpQueryparam}`)
+  return tmpQueryparam
 }
 
 
