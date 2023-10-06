@@ -23,7 +23,7 @@ const HomePage = () => {
       <br/>
       <Link href='/vtecx_sociallogin_menu'>ソーシャルログイン メニュー</Link> (vtecx_sociallogin_menu)
       <br/>
-      <Link href='/vtecx_fcm'>FCM テスト</Link> (vtecx_sociallogin_menu)
+      <Link href='/vtecx_fcm'>FCM テスト</Link> (vtecx_fcm)
       <br/>
 
     </div>
