@@ -97,20 +97,20 @@ const HomePage = ({now}:Props) => {
       <table>
         <tbody>
           <tr>
-            <td><label>ユーザ名: </label></td>
+            <td>ユーザ名: </td>
             <td><input type="text" id="username" name="username" value={username} 
                        onChange={(event) => setUsername(event.target.value)} /></td>
           </tr>
           <tr>
-            <td><label>Password: </label></td>
+            <td>Password: </td>
             <td><input type="password" id="pswrd" name="pswrd" value={pswrd}
                        onChange={(event) => setPswrd(event.target.value)} /></td>
           </tr>
           <tr>
-            <td><label></label></td>
-            <td><label className="recaptcha">This site is protected by reCAPTCHA and the Google
+            <td>&nbsp;</td>
+            <td><span className="recaptcha">This site is protected by reCAPTCHA and the Google
                        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-                       <a href="https://policies.google.com/terms">Terms of Service</a> apply.</label></td>
+                       <a href="https://policies.google.com/terms">Terms of Service</a> apply.</span></td>
           </tr>
         </tbody>
       </table>
@@ -118,11 +118,11 @@ const HomePage = ({now}:Props) => {
 
       <br/>
       <br/>
-      <label>One-time password: </label>
+      <span>One-time password: </span>
       <input type="password" id="onetimePswrd" name="onetimePswrd" value={onetimePswrd}
           onChange={(event) => setOnetimePswrd(event.target.value)} />
       <br/>
-      <input type="checkbox" checked={isTrustedDevice} onChange={(event) => setTrustedDevice(event.target.checked)} /><label>この端末を信頼し、次回から２段階認証を行わない</label>
+      <input type="checkbox" checked={isTrustedDevice} onChange={(event) => setTrustedDevice(event.target.checked)} /><span>この端末を信頼し、次回から２段階認証を行わない</span>
       <br/>
       <button onClick={handleClickTotp}>２段階認証</button>
       <p>{result}</p>
@@ -135,7 +135,7 @@ const HomePage = ({now}:Props) => {
       <br/>
       <Link href="/vtecx_passreset">パスワードを忘れた方はこちら</Link>
       <br/>
-      <label>現在時刻: {now}</label>
+      <span>現在時刻: {now}</span>
     </div>
   )
 }

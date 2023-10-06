@@ -75,20 +75,20 @@ const Header = ({title} : {title:string}) => {
       <table>
         <tbody>
           <tr>
-            <td><label>メールアドレス: </label></td>
+            <td><span>メールアドレス: </span></td>
             <td><input type="text" id="username" name="username" value={username} 
                        onChange={(event) => setUsername(event.target.value)} /></td>
           </tr>
           <tr>
-            <td><label>パスワード: </label></td>
+            <td><span>パスワード: </span></td>
             <td><input type="password" id="pswrd" name="pswrd" value={pswrd}
                        onChange={(event) => setPswrd(event.target.value)} /></td>
           </tr>
           <tr>
-            <td><label></label></td>
-            <td><label className="recaptcha">This site is protected by reCAPTCHA and the Google
+            <td>&nbsp;</td>
+            <td><span className="recaptcha">This site is protected by reCAPTCHA and the Google
                        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-                       <a href="https://policies.google.com/terms">Terms of Service</a> apply.</label></td>
+                       <a href="https://policies.google.com/terms">Terms of Service</a> apply.</span></td>
           </tr>
         </tbody>
       </table>

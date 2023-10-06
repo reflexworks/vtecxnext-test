@@ -17,8 +17,7 @@ const Header = ({title} : {title:string}) => {
   return (
     <div>
       <Header title="ユーザ登録　結果画面" />
-      <label>【useEffect】 result: {props.message}</label>
-      <br/>
+      <p>【useEffect】 result: {props.message}</p>
       <br/>
       <Link href="/vtecx_test">汎用APIテスト</Link>
     </div>

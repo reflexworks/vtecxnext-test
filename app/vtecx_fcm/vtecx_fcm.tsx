@@ -9,16 +9,16 @@ import * as browserutil from 'utils/browserutil'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDAhRNQElMDnwQx1DdFW7u2FNbLAN1Uxho",
-  authDomain: "vtecxnext-test-fcm.firebaseapp.com",
-  projectId: "vtecxnext-test-fcm",
-  storageBucket: "vtecxnext-test-fcm.appspot.com",
-  messagingSenderId: "619691136868",
-  appId: "1:619691136868:web:de62d2dc6db6b21946cc71",
-  measurementId: "G-F2FBPLCE4K"
+  apiKey: "AIzaSyAArMykrPSaAaMF1Z3vix8BV6y-MhDGT6U",
+  authDomain: "nextjs-test-fcm.firebaseapp.com",
+  projectId: "nextjs-test-fcm",
+  storageBucket: "nextjs-test-fcm.appspot.com",
+  messagingSenderId: "978233719828",
+  appId: "1:978233719828:web:080d8681d12cd921a5fb01"
 }
 
-const vapidKey = 'BGo6ihc1kHchsglkOyiudllokmdCxqs8U1O63BNqcJPAeioHPzIxVFVbcjiTxRaqMmgkdlJS709pOghttTpGstc'
+//const vapidKey = 'm78-60EjnpfBVN1LAMTZdbsBpg8Sg0yi3BlBvXGJxrM'
+const vapidKey = 'BI-sgUXv9APFPjP0V3eM5RUO9Ub2AuGW8hspjtVuvh2S4zHpXtbnN9N_iECrGtgxbZeu26MGsLpoNhVIpnI1GKM'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)

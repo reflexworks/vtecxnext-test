@@ -28,7 +28,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <label>リダイレクト画面</label>
+      <span>リダイレクト画面</span>
     </div>
   )
 }

@@ -71,7 +71,7 @@ const HomePage = () => {
       <table>
         <tbody>
           <tr>
-            <td><label>新パスワード: </label></td>
+            <td><span>新パスワード: </span></td>
             <td><input type="password" id="pswrd" name="pswrd" value={pswrd}
                        onChange={(event) => setPswrd(event.target.value)} /></td>
           </tr>

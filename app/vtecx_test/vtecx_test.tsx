@@ -1061,39 +1061,38 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header title="vtecxnext テスト (develop)" />
-      <label>【useEffect】 is logged in: {props.isLoggedin}</label>
-      <br/>
+      <Header title="vtecxnext テスト" />
+      <p>【useEffect】 is logged in: {props.isLoggedin}</p>
       <br/>
       <select name="action" value={action} onChange={(e) => onChangeOption(e.target)}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
-      <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-      <label>連携サービス名: </label>
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>連携サービス名: </span>
       <input type="text" size={sizeTargetservice} id="targetservice" name="targetservice" value={targetservice} 
                        onChange={(event) => setTargetservice(event.target.value)} />
       <br/>
       <table>
         <tbody>
           <tr>
-            <td align="right" valign="top"><label>URLパラメータ: </label></td>
+            <td align="right" valign="top"><span>URLパラメータ: </span></td>
             <td valign="top"><input type="text" size={sizeText} id="urlparam" name="urlparam" value={urlparam} 
                        onChange={(event) => setUrlparam(event.target.value)} /></td>
-            <td valign="top"><label>{descriptionUrlparam}</label></td>
+            <td valign="top"><span>{descriptionUrlparam}</span></td>
           </tr>
           <tr>
-            <td align="right" valign="top"><label>リクエストデータ: </label></td>
+            <td align="right" valign="top"><span>リクエストデータ: </span></td>
             <td valign="top"><textarea rows={rowTextarea} cols={colsTextarea} id="reqdata" name="reqdata" value={reqdata}
                        onChange={(event) => setReqdata(event.target.value)} /></td>
-            <td valign="top"><label>{descriptionReqdata}</label></td>
+            <td valign="top"><span>{descriptionReqdata}</span></td>
           </tr>
           <tr>
-            <td align="right" valign="top"><label>ファイルアップロード: </label></td>
+            <td align="right" valign="top"><span>ファイルアップロード: </span></td>
             <td valign="top"><input type="file" multiple size={sizeText} id="uploadfile" name="uploadfile" 
                        onChange={onFileInputChange} /></td>
-            <td valign="top"><label></label></td>
+            <td valign="top">&nbsp;</td>
           </tr>
         </tbody>
       </table>
@@ -1102,8 +1101,7 @@ const HomePage = () => {
       &nbsp;&nbsp;
       <button onClick={(event) => setResult('')}>結果クリア</button>
       <br/>
-      <label>実行結果: </label>
-      <br/>
+      <p>実行結果: </p>
       <p>{result}</p>
       <br/>
 
