@@ -22,6 +22,9 @@ const HomePage = () => {
       <Link href='/vtecx_viewpdf'>PDF表示テスト</Link> (vtecx_viewpdf)
       <br/>
       <Link href='/vtecx_sociallogin_menu'>ソーシャルログイン メニュー</Link> (vtecx_sociallogin_menu)
+      <br/>
+      <Link href='/vtecx_fcm'>FCM テスト</Link> (vtecx_sociallogin_menu)
+      <br/>
 
     </div>
   )
