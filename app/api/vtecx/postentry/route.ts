@@ -51,8 +51,10 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   let resStatus:number
   let resJson:any
   try {
-    resJson = await vtecxnext.post(feed, key, targetservice)
+    //resJson = await vtecxnext.post(feed, key, targetservice)
+    await vtecxnext.post(feed, key, targetservice)
     resStatus = 200
+    resJson = {'feed' : {'title' : 'Created.'}}
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
