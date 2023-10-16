@@ -57,7 +57,17 @@ const CONTENTS = {
         "type": "button",
         "action": {
           "type": "message",
-          "label": "画像メッセージ",
+          "label": "画像メッセージ1",
+          "text": "画像1"
+        },
+        "margin": "10px",
+        "style": "primary"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "画像メッセージ2",
           "text": "画像2"
         },
         "margin": "10px",
@@ -80,15 +90,29 @@ const getAnswer = (userId:string, replyToken:string, reqtext:string) => {
   })
 }
 
-const getImage = (userId:string, replyToken:string) => {
+const getImage1 = (userId:string, replyToken:string) => {
   return JSON.stringify({
     //to: userId,
     replyToken: replyToken,
     messages: [
       {
         "type": "image",
-        "originalContentUrl": "https://terada-test-line.vte.cx/d/img/balloon2.png",
-        "previewImageUrl": "https://terada-test-line.vte.cx/d/img/balloon2.png"
+        "originalContentUrl": "https://terada-test-vtecxnext.vte.cx/d/img/space_shuttle.png",
+        "previewImageUrl": "https://terada-test-vtecxnext.vte.cx/d/img/space_shuttle_s.png"
+      }
+    ]
+  })
+}
+
+const getImage2 = (userId:string, replyToken:string) => {
+  return JSON.stringify({
+    //to: userId,
+    replyToken: replyToken,
+    messages: [
+      {
+        "type": "image",
+        "originalContentUrl": "https://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
+        "previewImageUrl": "https://terada-test-vtecxnext.vte.cx/d/img/balloon2.png"
       }
     ]
   })
@@ -158,7 +182,8 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
   const ACTION_Q1 = '1'
   const ACTION_Q2 = '2'
   const ACTION_Q3 = '3'
-  const ACTION_IMAGE = '画像2'
+  const ACTION_IMAGE1 = '画像1'
+  const ACTION_IMAGE2 = '画像2'
 
   for (const event of data.events) {
     const eventType = event.type ?? 'no type'
@@ -175,8 +200,10 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
         body = getAnswer(event.source?.userId, event.replyToken, ACTION_Q2)
       } else if (event.message.text === ACTION_Q3) {
         body = getAnswer(event.source?.userId, event.replyToken, ACTION_Q3)
-      } else if (event.message.text === ACTION_IMAGE) {
-        body = getImage(event.source?.userId, event.replyToken)
+      } else if (event.message.text === ACTION_IMAGE1) {
+        body = getImage1(event.source?.userId, event.replyToken)
+      } else if (event.message.text === ACTION_IMAGE2) {
+        body = getImage2(event.source?.userId, event.replyToken)
       }
 
       if (body) {
