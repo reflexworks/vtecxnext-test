@@ -58,7 +58,7 @@ const CONTENTS = {
         "action": {
           "type": "message",
           "label": "画像メッセージ",
-          "text": "画像"
+          "text": "画像2"
         },
         "margin": "10px",
         "style": "primary"
@@ -93,7 +93,7 @@ const getImage = (userId:string, replyToken:string) => {
           "contents": [
             {
               "type": "image",
-              "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon.png",
+              "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
               "size": "md"
             }
           ]
@@ -167,7 +167,7 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
   const ACTION_Q1 = '1'
   const ACTION_Q2 = '2'
   const ACTION_Q3 = '3'
-  const ACTION_IMAGE = '画像'
+  const ACTION_IMAGE = '画像2'
 
   for (const event of data.events) {
     const eventType = event.type ?? 'no type'
@@ -193,7 +193,9 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
         await vtecxnext.log(`name=${nameStr} send data = ${JSON.stringify(body)}`, 'LINE Webhook')
         try {
           const response = await lineutil.replyMessage(body, channelAccessToken)
+          console.log(`[LINE webhook] await lineutil.replyMessage end.`)
           const resDataStr = await response.text()
+          console.log(`[LINE webhook] await response.text end.`)
           await vtecxnext.log(`name=${nameStr} lineutil.replyMessage end. status=${response.status} response data = ${resDataStr}`, 'LINE Webhook')
           
         } catch (e) {
