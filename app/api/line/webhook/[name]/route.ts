@@ -193,10 +193,10 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
         await vtecxnext.log(`name=${nameStr} send data = ${JSON.stringify(body)}`, 'LINE Webhook')
         try {
           const response = await lineutil.replyMessage(body, channelAccessToken)
-          console.log(`[LINE webhook] await lineutil.replyMessage end.`)
-          const resDataStr = await response.text()
-          console.log(`[LINE webhook] await response.text end.`)
-          await vtecxnext.log(`name=${nameStr} lineutil.replyMessage end. status=${response.status} response data = ${resDataStr}`, 'LINE Webhook')
+          console.log(`[LINE webhook] await lineutil.replyMessage end. `)
+          //const resDataStr = await response.text()
+          console.log(`[LINE webhook] response = ${JSON.stringify(response)}`)
+          //await vtecxnext.log(`name=${nameStr} lineutil.replyMessage end. status=${response.status} response data = ${resDataStr}`, 'LINE Webhook')
           
         } catch (e) {
           let msg = ''
