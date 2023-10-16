@@ -19,11 +19,16 @@ export const POST = async (req:NextRequest):Promise<Response> => {
 
   // キーを取得
   const key:string = vtecxnext.getParameter('key') ?? ''
+  const bysize = vtecxnext.hasParameter('bysize')
 
   let resStatus:number
   let resJson:any
   try {
-    resJson = await vtecxnext.savefiles(key)
+    if (bysize) {
+      resJson = await vtecxnext.savefilesBySize(key)
+    } else {
+      resJson = await vtecxnext.savefiles(key)
+    }
     resStatus = 200
   } catch (error) {
     let resErrMsg:string

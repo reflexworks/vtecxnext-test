@@ -644,13 +644,13 @@ const HomePage = () => {
     {
       label: 'save files',
       value: 'savefiles',
-      labelUrlparam: 'key={親キー}',
+      labelUrlparam: 'key={親キー}[&bysize]',
       labelReqdata: '',
     },
     {
       label: 'put content',
       value: 'putcontent',
-      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}',
+      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}[&bysize]',
       labelReqdata: '',
     },
     {

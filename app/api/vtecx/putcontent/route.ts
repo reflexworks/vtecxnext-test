@@ -19,11 +19,18 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
 
   // キーを取得
   const key:string = vtecxnext.getParameter('key') ?? ''
+  const bysize = vtecxnext.hasParameter('bysize')
 
   let resStatus:number
   let resJson:any
   try {
-    resJson = await vtecxnext.putcontent(key)
+    if (bysize) {
+      console.log(`[api putcontent] putcontentBySize key=${key}`)
+      resJson = await vtecxnext.putcontentBySize(key)
+    } else {
+      console.log(`[api putcontent] putcontent key=${key}`)
+      resJson = await vtecxnext.putcontent(key)
+    }
     resStatus = 200
   } catch (error) {
     let resErrMsg:string
