@@ -160,13 +160,13 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
   console.log(`[LINE webhook] channelSecret=${channelSecret}`)
   if (!lineutil.checkSignature(req, buf, channelSecret)) {
     console.log(`[LINE webhook] signature is invalid.`)
-    await vtecxnext.log(`name=${nameStr} Line signature is invalid.`, 'LINE Webhook')
+    //await vtecxnext.log(`name=${nameStr} Line signature is invalid.`, 'LINE Webhook')
     return vtecxnext.response(400, 'Line signature is invalid.')
   }
   const signatureJson = new TextDecoder().decode(buf)
   console.log(`[LINE webhook] request data = ${signatureJson}`)
   const data = JSON.parse(signatureJson)
-  await vtecxnext.log(`name=${nameStr} request data = ${JSON.stringify(data)}`, 'LINE Webhook')
+  //await vtecxnext.log(`name=${nameStr} request data = ${JSON.stringify(data)}`, 'LINE Webhook')
   if (!data || !data.events || data.events.length < 1) {
     // LINE Webhook検証データは {"destination":"xxx","events":[]}
     // 処理終了
@@ -208,12 +208,10 @@ export const POST = async (req:NextRequest, { params }:any):Promise<Response> =>
 
       if (body) {
         console.log(`[LINE webhook] send data = ${JSON.stringify(body)}`)
-        await vtecxnext.log(`name=${nameStr} send data = ${JSON.stringify(body)}`, 'LINE Webhook')
+        //await vtecxnext.log(`name=${nameStr} send data = ${JSON.stringify(body)}`, 'LINE Webhook')
         try {
           const response = await lineutil.replyMessage(body, channelAccessToken)
-          console.log(`[LINE webhook] await lineutil.replyMessage end. `)
-          //const resDataStr = await response.text()
-          console.log(`[LINE webhook] response = ${JSON.stringify(response)}`)
+          console.log(`[LINE webhook] reply line message. response = ${JSON.stringify(response)}`)
           //await vtecxnext.log(`name=${nameStr} lineutil.replyMessage end. status=${response.status} response data = ${resDataStr}`, 'LINE Webhook')
           
         } catch (e) {

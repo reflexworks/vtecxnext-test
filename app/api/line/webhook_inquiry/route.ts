@@ -117,13 +117,13 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   const buf = await vtecxnext.buffer()
   if (!lineutil.checkSignature(req, buf)) {
     console.log(`[LINE webhook_inquiry] signature is invalid.`)
-    await vtecxnext.log(`Line signature is invalid.`, 'LINE Webhook inquiry')
+    //await vtecxnext.log(`Line signature is invalid.`, 'LINE Webhook inquiry')
     return vtecxnext.response(400, 'Line signature is invalid.')
   }
   const str = buf.toString()
   const data = JSON.parse(str)
   console.log(`[LINE webhook_inquiry] request data = ${JSON.stringify(data)}`)
-  await vtecxnext.log(`request data = ${JSON.stringify(data)}`, 'LINE Webhook inquiry')
+  //await vtecxnext.log(`request data = ${JSON.stringify(data)}`, 'LINE Webhook inquiry')
   if (!data || !data.events || data.events.length < 1) {
     // 処理終了
     return vtecxnext.response(200)
@@ -156,11 +156,12 @@ export const POST = async (req:NextRequest):Promise<Response> => {
 
       if (body) {
         console.log(`[LINE webhook_inquiry] send data = ${JSON.stringify(body)}`)
-        await vtecxnext.log(`send data = ${JSON.stringify(body)}`, 'LINE Webhook inquiry')
+        //await vtecxnext.log(`send data = ${JSON.stringify(body)}`, 'LINE Webhook inquiry')
         try {
           const response = await lineutil.fetchLine(body)
-          const resDataStr = await response.text()
-          await vtecxnext.log(`lineutil.fetchLine end. status=${response.status} response data = ${resDataStr}`, 'LINE Webhook inquiry')
+          console.log(`[LINE webhook] send line message. response = ${JSON.stringify(response)}`)
+          //const resDataStr = await response.text()
+          //await vtecxnext.log(`lineutil.fetchLine end. status=${response.status} response data = ${resDataStr}`, 'LINE Webhook inquiry')
           
         } catch (e) {
           let msg = ''
