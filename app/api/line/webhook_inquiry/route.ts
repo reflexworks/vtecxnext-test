@@ -92,7 +92,7 @@ const getImage = (userId:string, replyToken:string) => {
           "contents": [
             {
               "type": "image",
-              "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon.png",
+              "url": "https://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
               "size": "md"
             }
           ]
