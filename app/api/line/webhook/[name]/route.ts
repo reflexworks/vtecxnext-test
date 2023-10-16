@@ -86,18 +86,9 @@ const getImage = (userId:string, replyToken:string) => {
     replyToken: replyToken,
     messages: [
       {
-        "type": "bubble",
-        "body": {
-          "type": "box",
-          "layout": "horizontal",
-          "contents": [
-            {
-              "type": "image",
-              "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
-              "size": "md"
-            }
-          ]
-        }
+        "type": "image",
+        "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
+        "size": "md"
       }
     ]
   })
