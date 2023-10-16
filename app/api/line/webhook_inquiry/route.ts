@@ -51,6 +51,16 @@ const CONTENTS = {
         },
         "margin": "10px",
         "style": "primary"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "message",
+          "label": "画像メッセージ",
+          "text": "画像"
+        },
+        "margin": "10px",
+        "style": "primary"
       }
     ]
   }
@@ -64,6 +74,29 @@ const getAnswer = (userId:string, replyToken:string, reqtext:string) => {
       {
         type: 'text',
         text: `お問い合わせ ${reqtext} の回答`,
+      }
+    ]
+  })
+}
+
+const getImage = (userId:string, replyToken:string) => {
+  return JSON.stringify({
+    //to: userId,
+    replyToken: replyToken,
+    messages: [
+      {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "image",
+              "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon.png",
+              "size": "md"
+            }
+          ]
+        }
       }
     ]
   })
@@ -100,6 +133,7 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   const ACTION_Q1 = '1'
   const ACTION_Q2 = '2'
   const ACTION_Q3 = '3'
+  const ACTION_IMAGE = '画像'
 
   for (const event of data.events) {
     const eventType = event.type ?? 'no type'
@@ -116,6 +150,8 @@ export const POST = async (req:NextRequest):Promise<Response> => {
         body = getAnswer(event.source?.userId, event.replyToken, ACTION_Q2)
       } else if (event.message.text === ACTION_Q3) {
         body = getAnswer(event.source?.userId, event.replyToken, ACTION_Q3)
+      } else if (event.message.text === ACTION_IMAGE) {
+        body = getImage(event.source?.userId, event.replyToken)
       }
 
       if (body) {
