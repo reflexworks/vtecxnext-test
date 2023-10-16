@@ -87,8 +87,8 @@ const getImage = (userId:string, replyToken:string) => {
     messages: [
       {
         "type": "image",
-        "url": "http://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
-        "size": "md"
+        "originalContentUrl": "http://terada-test-vtecxnext.vte.cx/d/img/balloon2.png",
+        "previewImageUrl": "http://terada-test-vtecxnext.vte.cx/d/img/balloon2.png"
       }
     ]
   })
