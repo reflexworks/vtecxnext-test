@@ -19,8 +19,6 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   }
 
   // パラメータを取得
-  const channel:string = vtecxnext.getParameter('channel') ?? ''
-  // 引数を取得
   const tmpTo:string = vtecxnext.getParameter('to') ?? ''
   const to = tmpTo ? tmpTo.split(',') : []
   console.log(`[api pushnotification] to=${to}`)
