@@ -4,10 +4,7 @@ import { useState } from 'react'
 import { getHashpass } from '@vtecx/vtecxauth'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import * as browserutil from 'utils/browserutil'
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
+import { Header } from 'components/header'
 
 /**
  * ページ関数

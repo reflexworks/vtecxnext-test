@@ -6,6 +6,7 @@ import { getMessaging } from 'firebase/messaging'
 import { getToken } from 'firebase/messaging'
 import { Props, useApi as getUid } from './useapi'
 import * as browserutil from 'utils/browserutil'
+import { Header } from 'components/header'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -25,10 +26,6 @@ const app = initializeApp(firebaseConfig)
 
 // Initialize Firebase Cloud Messaging and get a reference to the service
 const messaging = getMessaging(app)
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
 
 const HomePage = () => {
   const props:Props = getUid()

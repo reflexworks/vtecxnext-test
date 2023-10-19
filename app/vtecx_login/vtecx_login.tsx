@@ -6,6 +6,7 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { getAuthToken } from '@vtecx/vtecxauth'
 import * as browserutil from 'utils/browserutil'
 import { Props } from './servercomponent'
+import { Header } from 'components/header'
 
 /**
  * ページ関数
@@ -138,10 +139,6 @@ const HomePage = ({now}:Props) => {
       <span>現在時刻: {now}</span>
     </div>
   )
-}
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
 }
 
 export default HomePage

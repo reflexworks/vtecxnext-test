@@ -2,10 +2,7 @@
 
 import Link from 'next/link'
 import { Props, useApi as isSignup } from './useapi'
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
+import { Header } from 'components/header'
 
 /**
  * ページ関数

@@ -1,10 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
+import { Header } from 'components/header'
 
 const HomePage = () => {
   return (

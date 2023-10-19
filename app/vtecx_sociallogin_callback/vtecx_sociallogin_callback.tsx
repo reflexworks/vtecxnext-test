@@ -4,10 +4,7 @@ import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import * as browserutil from 'utils/browserutil'
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
+import { Header } from 'components/header'
 
 /**
  * ページ関数

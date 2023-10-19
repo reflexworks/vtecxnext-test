@@ -3,10 +3,8 @@
 import { useState } from 'react'
 import * as browserutil from 'utils/browserutil'
 import { Props, useApi as isLoggedIn } from './useapi'
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
+import Select from 'react-select'
+import { Header } from 'components/header'
 
 const HomePage = () => {
   const props:Props = isLoggedIn()
@@ -20,12 +18,14 @@ const HomePage = () => {
   const [targetservice, setTargetservice] = useState<string>('')
 
   const options = [
+    /*
     {
       label: '--- 選択してください ---',
       value: 'select',
       labelUrlparam: '',
       labelReqdata: '',
     },
+    */
     {
       label: 'uid',
       value: 'uid',
@@ -798,6 +798,25 @@ const HomePage = () => {
     },
   ]
 
+  const reactSelectStyles = {
+    control: (baseStyles:any, state:any) => ({
+      // セレクトボックス自体のスタイル
+      ...baseStyles,
+      width: 400,
+    }),
+    option: (baseStyles:any, state:any) => ({
+      // セレクトボックスの中身のスタイル
+      ...baseStyles,
+      width: 400,
+      paddingTop: 1,
+      paddingBottom: 1,
+    }),
+    menu: (baseStyles:any, state:any) => ({
+      ...baseStyles,
+      width: 400,
+    }),
+  };
+  /*
   const onChangeOption = (eTarget:EventTarget & HTMLSelectElement) => {
     console.log(`[onChangeOption] start. ${eTarget.value}`)
     setAction(eTarget.value)
@@ -806,6 +825,24 @@ const HomePage = () => {
         setDescriptionUrlparam(option.labelUrlparam)
         setDescriptionReqdata(option.labelReqdata)
       }
+    }
+  }
+  */
+
+  /**
+   * React Selectでオプションが選択された時に呼び出す関数.
+   * @param option 選択されたoptionの内容
+   */
+  const onChangeReactSelect = (option: any) => {
+    //console.log(`[onChangeOption] start. ${JSON.stringify(option)}`)
+    if (option != null) {
+      setAction(option.value)
+      setDescriptionUrlparam(option.labelUrlparam)
+      setDescriptionReqdata(option.labelReqdata)
+    } else {
+      setAction('')
+      setDescriptionUrlparam('')
+      setDescriptionReqdata('')
     }
   }
 
@@ -1059,21 +1096,43 @@ const HomePage = () => {
   const colsTextarea = 50
   const sizeTargetservice = 20
 
-  return (
-    <div>
-      <Header title="vtecxnext テスト" />
-      <p>【useEffect】 is logged in: {props.isLoggedin}</p>
-      <br/>
+  /*
       <select name="action" value={action} onChange={(e) => onChangeOption(e.target)}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </select>
-      <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <span>連携サービス名: </span>
-      <input type="text" size={sizeTargetservice} id="targetservice" name="targetservice" value={targetservice} 
-                       onChange={(event) => setTargetservice(event.target.value)} />
+  */
+
+  return (
+    <div>
+      <Header title="vtecxnext テスト" />
+      <p>【useEffect】 is logged in: {props.isLoggedin}</p>
       <br/>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <span>機能:&nbsp;</span>
+            </td>
+            <td>
+              <Select 
+                options={options} 
+                isSearchable={true} 
+                isClearable={true} 
+                onChange={onChangeReactSelect} 
+                styles={reactSelectStyles}
+              />
+            </td>
+            <td>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span>連携サービス名: </span>
+              <input type="text" size={sizeTargetservice} id="targetservice" name="targetservice" value={targetservice} 
+                              onChange={(event) => setTargetservice(event.target.value)} />
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <table>
         <tbody>
           <tr>

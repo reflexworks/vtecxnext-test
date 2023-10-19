@@ -5,10 +5,7 @@ import { getHashpass } from '@vtecx/vtecxauth'
 import Link from 'next/link'
 import * as browserutil from 'utils/browserutil'
 import { Props, useApi as urlParam } from './useapi'
-
-const Header = ({title} : {title:string}) => {
-  return <h1>{title ? title : 'Default title'}</h1>
-}
+import { Header } from 'components/header'
 
 /**
  * ページ関数
