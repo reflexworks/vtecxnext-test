@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { VtecxNext, VtecxNextError } from 'utils/vtecxnext'
+import { VtecxNext, VtecxNextError } from '@vtecx/vtecxnext'
 
 export const GET = async (req:NextRequest):Promise<Response> => {
   console.log(`[api healthcheck] start.`)
