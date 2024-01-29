@@ -18,14 +18,6 @@ const HomePage = () => {
   const [targetservice, setTargetservice] = useState<string>('')
 
   const options = [
-    /*
-    {
-      label: '--- 選択してください ---',
-      value: 'select',
-      labelUrlparam: '',
-      labelReqdata: '',
-    },
-    */
     {
       label: 'uid',
       value: 'uid',
@@ -791,6 +783,12 @@ const HomePage = () => {
       }, ...]`,
     },
     {
+      label: 'health check',
+      value: 'healthcheck',
+      labelUrlparam: '',
+      labelReqdata: '',
+    },
+    {
       label: 'logout',
       value: 'logout',
       labelUrlparam: '',
@@ -880,7 +878,7 @@ const HomePage = () => {
         action === 'isloggedin' || action === 'logout' || 
         action === 'getentry' ||
         action === 'allocids' || action === 'getids' || action === 'getrangeids' ||
-        action === 'sendmessage') {
+        action === 'sendmessage' || action === 'healthcheck') {
       method = 'GET'
       apiAction = action
     } else if (action === 'log' || action === 'postentry' || action === 'sendmail' ||
