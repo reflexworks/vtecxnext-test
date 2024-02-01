@@ -646,6 +646,12 @@ const HomePage = () => {
       labelReqdata: '',
     },
     {
+      label: 'post content (key is numbered)',
+      value: 'postcontent',
+      labelUrlparam: 'key={親キー}',
+      labelReqdata: '',
+    },
+    {
       label: 'delete content',
       value: 'deletecontent',
       labelUrlparam: 'key={キー}',
@@ -1010,6 +1016,20 @@ const HomePage = () => {
 
         } else {
           console.log(`[request] [putcontent] uploadfile = undefined`)
+        }
+      }
+    } else if (action === 'postcontent') {
+      method = 'POST'
+      apiAction = action
+      if (uploadfiles) {
+        if (uploadfiles.length > 0) {
+          const uploadfile = uploadfiles[0]
+          console.log(`[request] [postcontent] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
+          body = uploadfile
+          headers = {'content-type' : uploadfile.type, 'content-length' : uploadfile.size}
+
+        } else {
+          console.log(`[request] [postcontent] uploadfile = undefined`)
         }
       }
     } else if (action.startsWith('acl_')) {
