@@ -820,18 +820,6 @@ const HomePage = () => {
       width: 400,
     }),
   };
-  /*
-  const onChangeOption = (eTarget:EventTarget & HTMLSelectElement) => {
-    console.log(`[onChangeOption] start. ${eTarget.value}`)
-    setAction(eTarget.value)
-    for (const option of options) {
-      if (eTarget.value === option.value) {
-        setDescriptionUrlparam(option.labelUrlparam)
-        setDescriptionReqdata(option.labelReqdata)
-      }
-    }
-  }
-  */
 
   /**
    * React Selectでオプションが選択された時に呼び出す関数.
@@ -1114,14 +1102,6 @@ const HomePage = () => {
   const colsTextarea = 50
   const sizeTargetservice = 20
 
-  /*
-      <select name="action" value={action} onChange={(e) => onChangeOption(e.target)}>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>{option.label}</option>
-        ))}
-      </select>
-  */
-
   return (
     <div>
       <Header title="vtecxnext テスト" />
@@ -1185,22 +1165,5 @@ const HomePage = () => {
     </div>
   )
 }
-
-/*
-// サーバサイドで実行する処理(getServerSideProps)を定義する
-export const getServerSideProps = async ({ req, query }) => {
-  // vtecxnext 呼び出し
-  const isLoggedin = await vtecxnext.isLoggedin(req, context.res)
-
-  const props: Props = {
-    isLoggedin: String(isLoggedin)
-  }
-  console.log(`[vtecx_test getServerSideProps] props.isLoggedin=${props.isLoggedin}`)
-
-  return {
-    props: props,
-  }
-}
-*/
 
 export default HomePage
