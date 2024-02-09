@@ -19,12 +19,13 @@ export const POST = async (req:NextRequest):Promise<Response> => {
 
   // キーを取得
   const key:string = vtecxnext.getParameter('key') ?? ''
+  const ext:string = vtecxnext.getParameter('ext') ?? ''
 
   let resStatus:number
   let resJson:any
   try {
-    console.log(`[api postcontent] key=${key}`)
-    resJson = await vtecxnext.postcontent(key)
+    console.log(`[api postcontent] key=${key} ext=${ext}`)
+    resJson = await vtecxnext.postcontent(key, ext)
     resStatus = 200
   } catch (error) {
     let resErrMsg:string

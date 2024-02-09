@@ -648,7 +648,7 @@ const HomePage = () => {
     {
       label: 'post content (key is numbered)',
       value: 'postcontent',
-      labelUrlparam: 'key={親キー}',
+      labelUrlparam: 'key={親キー}[&ext={拡張子}]',
       labelReqdata: '',
     },
     {
