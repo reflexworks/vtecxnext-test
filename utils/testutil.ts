@@ -192,7 +192,14 @@ export const removeParam = (requestUrl:string, names:string[]): string => {
   return tmpQueryparam
 }
 
-
+/**
+ * string形かどうか判定
+ * @param a 判定項目
+ * @returns string形の場合true
+ */
+export const isString = (a: unknown): a is string => {
+  return typeof a === 'string'
+}
 
 // --------------------------------------
 /**

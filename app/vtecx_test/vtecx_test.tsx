@@ -5,6 +5,7 @@ import * as browserutil from 'utils/browserutil'
 import { Props, useApi as isLoggedIn } from './useapi'
 import Select from 'react-select'
 import { Header } from 'components/header'
+import * as testutil from 'utils/testutil'
 
 const HomePage = () => {
   const props:Props = isLoggedIn()
@@ -637,19 +638,19 @@ const HomePage = () => {
       label: 'save files',
       value: 'savefiles',
       labelUrlparam: 'key={親キー}[&bysize]',
-      labelReqdata: '',
+      labelReqdata: 'ファイルアップロードでファイルを選択する',
     },
     {
       label: 'put content',
       value: 'putcontent',
       labelUrlparam: 'key={キー (ファイル名も含めて指定する)}[&bysize]',
-      labelReqdata: '',
+      labelReqdata: 'ファイルアップロードでファイルを選択する',
     },
     {
       label: 'post content (key is numbered)',
       value: 'postcontent',
       labelUrlparam: 'key={親キー}[&ext={拡張子}]',
-      labelReqdata: '',
+      labelReqdata: 'ファイルアップロードでファイルを選択する',
     },
     {
       label: 'delete content',
@@ -795,6 +796,36 @@ const HomePage = () => {
       labelReqdata: '',
     },
     {
+      label: 'get signed url (put content)',
+      value: 'signedurl_put',
+      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}',
+      labelReqdata: '',
+    },
+    {
+      label: 'get signed url (post content (key is numbered))',
+      value: 'signedurl_post',
+      labelUrlparam: 'key={親キー}[&ext={拡張子}]',
+      labelReqdata: '',
+    },
+    {
+      label: 'get signed url (get content)',
+      value: 'signedurl_get',
+      labelUrlparam: 'key={キー}',
+      labelReqdata: '',
+    },
+    {
+      label: 'request to signed url (put content)',
+      value: 'requesttosignedurl_put',
+      labelUrlparam: '{署名付きURL}',
+      labelReqdata: 'ファイルアップロードでファイルを選択する',
+    },
+    {
+      label: 'request to signed url (get content)',
+      value: 'requesttosignedurl_get',
+      labelUrlparam: '{署名付きURL}',
+      labelReqdata: '',
+    },
+    {
       label: 'logout',
       value: 'logout',
       labelUrlparam: '',
@@ -868,6 +899,8 @@ const HomePage = () => {
     let additionalParam
     let isJson:boolean = true
     let filename = ''
+    let url = ''
+
     if (action === 'uid' || action === 'uid2' || action === 'whoami' || 
         action === 'isloggedin' || action === 'logout' || 
         action === 'getentry' ||
@@ -891,11 +924,11 @@ const HomePage = () => {
       apiAction = action
     } else if (action.startsWith('session_')) {
       const tmpAction = action.substring(8)
-      console.log(`[request] 'session_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'session_' + '${tmpAction}'`)
       const idx = tmpAction.indexOf('_')
       method = tmpAction.substring(0, idx)
       additionalParam = `type=${tmpAction.substring(idx + 1)}`
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       if (method) {
         apiAction = 'session'
         if (method === 'put') {
@@ -941,7 +974,7 @@ const HomePage = () => {
       }
     } else if (action.startsWith('messagequeue_')) {
       const tmpAction = action.substring(13)
-      console.log(`[request] 'messagequeue_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'messagequeue_' + '${tmpAction}'`)
       const tmpIdx = tmpAction.indexOf('_')
       const idx = tmpIdx < 0 ? tmpAction.length : tmpIdx
       method = tmpAction.substring(0, idx)
@@ -954,7 +987,7 @@ const HomePage = () => {
       }
     } else if (action.startsWith('group_')) {
       const tmpAction = action.substring(6)
-      console.log(`[request] 'group_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'group_' + '${tmpAction}'`)
       let idx = tmpAction.indexOf('_')
       if (idx === -1) {
         idx = tmpAction.length
@@ -962,18 +995,18 @@ const HomePage = () => {
       method = tmpAction.substring(0, idx)
       additionalParam = `type=${tmpAction.substring(idx + 1)}`
       apiAction = 'group'
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
     } else if (action.startsWith('info_')) {
       method = 'GET'
       apiAction = 'info'
       additionalParam = `type=${action.substring(5)}`
     } else if (action.startsWith('user_')) {
       const tmpAction = action.substring(5)
-      console.log(`[request] 'user_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'user_' + '${tmpAction}'`)
       const idx = tmpAction.indexOf('_')
       method = tmpAction.substring(0, idx)
       additionalParam = `type=${tmpAction.substring(idx + 1)}`
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       if (method) {
         apiAction = 'user'
         if (method === 'post' || method === 'put') {
@@ -986,7 +1019,7 @@ const HomePage = () => {
       const formData = new FormData()
       if (uploadfiles) {
         for (const uploadfile of uploadfiles) {
-          console.log(`[request] [savefiles] uploadfile=${uploadfile.name} size=${uploadfile.size}`)
+          console.log(`[doRequest] [savefiles] uploadfile=${uploadfile.name} size=${uploadfile.size}`)
           formData.append(uploadfile.name, uploadfile, uploadfile.name)
         }
       }
@@ -998,12 +1031,12 @@ const HomePage = () => {
       if (uploadfiles) {
         if (uploadfiles.length > 0) {
           const uploadfile = uploadfiles[0]
-          console.log(`[request] [putcontent] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
+          console.log(`[doRequest] [putcontent] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
           body = uploadfile
           headers = {'content-type' : uploadfile.type, 'content-length' : uploadfile.size}
 
         } else {
-          console.log(`[request] [putcontent] uploadfile = undefined`)
+          console.log(`[doRequest] [putcontent] uploadfile = undefined`)
         }
       }
     } else if (action === 'postcontent') {
@@ -1012,37 +1045,37 @@ const HomePage = () => {
       if (uploadfiles) {
         if (uploadfiles.length > 0) {
           const uploadfile = uploadfiles[0]
-          console.log(`[request] [postcontent] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
+          console.log(`[doRequest] [postcontent] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
           body = uploadfile
           headers = {'content-type' : uploadfile.type, 'content-length' : uploadfile.size}
 
         } else {
-          console.log(`[request] [postcontent] uploadfile = undefined`)
+          console.log(`[doRequest] [postcontent] uploadfile = undefined`)
         }
       }
     } else if (action.startsWith('acl_')) {
       const tmpAction = action.substring(4)
-      console.log(`[request] 'acl_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'acl_' + '${tmpAction}'`)
       method = 'PUT'
       additionalParam = `type=${tmpAction}`
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       apiAction = 'acl'
       body = reqdata
     } else if (action.startsWith('alias_')) {
       const tmpAction = action.substring(6)
-      console.log(`[request] 'alias_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'alias_' + '${tmpAction}'`)
       method = 'PUT'
       additionalParam = `type=${tmpAction}`
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       apiAction = 'alias'
       body = reqdata
     } else if (action.startsWith('totp_')) {
       const tmpAction = action.substring(5)
-      console.log(`[request] 'totp_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'totp_' + '${tmpAction}'`)
       const idx = tmpAction.indexOf('_')
       method = tmpAction.substring(0, idx)
       additionalParam = `type=${tmpAction.substring(idx + 1)}`
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       if (method) {
         apiAction = 'totp'
         if (method === 'post') {
@@ -1055,15 +1088,39 @@ const HomePage = () => {
       body = reqdata
     } else if (action.startsWith('rdb_')) {
       const tmpAction = action.substring(4)
-      console.log(`[request] 'rdb_' + '${tmpAction}'`)
+      console.log(`[doRequest] 'rdb_' + '${tmpAction}'`)
       const idx = tmpAction.indexOf('_')
       method = tmpAction.substring(0, idx)
       additionalParam = `type=${tmpAction.substring(idx + 1)}`
-      console.log(`[request] method=${method} additionalParam=${additionalParam}`)
+      console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       if (method) {
         apiAction = 'rdb'
         if (method === 'put') {
           body = reqdata
+        }
+      }
+    } else if (action.startsWith('signedurl_')) {
+      console.log(`[doRequest] signedurl.`)
+      method = action.substring(10)
+      console.log(`[doRequest] signedurl method=${method}`)
+      if (method) {
+        apiAction = 'signedurl'
+      }
+    } else if (action.startsWith('requesttosignedurl_')) {
+      method = action.substring(19)
+      console.log(`[doRequest] requesttosignedurl method=${method}`)
+      if (method) {
+        url = urlparam
+        if (method === 'put') {
+          if (uploadfiles) {
+            if (uploadfiles.length > 0) {
+              const uploadfile = uploadfiles[0]
+              console.log(`[doRequest] [requesttosignedurl] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
+              body = uploadfile    
+            } else {
+              console.log(`[doRequest] [requesttosignedurl] uploadfile = undefined`)
+            }
+          }
         }
       }
     }
@@ -1082,6 +1139,28 @@ const HomePage = () => {
       } else {
         // データダウンロード
         console.log(`[doRequest] isJson=false data=${data}`)
+
+        const anchor = document.createElement("a")
+        anchor.href = URL.createObjectURL(data)
+        anchor.download = filename
+        document.body.appendChild(anchor)
+        anchor.click()
+        URL.revokeObjectURL(anchor.href)
+        document.body.removeChild(anchor)
+      }
+
+    } else if (method && url) {
+      // 外部URLにリクエスト
+      const data = await browserutil.requestUrl(method, url, body, headers)
+      if (!data) {
+        console.log(`[doRequest][requestUrl] data is null.`)
+        setResult(`no data.`)
+      } else if (testutil.isString(data)) {
+        console.log(`[doRequest][requestUrl] data=${data}`)
+        setResult(data)
+      } else {
+        // データダウンロード
+        console.log(`[doRequest][requestUrl] isJson=false data=${data}`)
 
         const anchor = document.createElement("a")
         anchor.href = URL.createObjectURL(data)

@@ -13,7 +13,7 @@
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
     "@vtecx/vtecxauth": "^1.0.2",
-    "@vtecx/vtecxnext": "^2.0.3",
+    "@vtecx/vtecxnext": "^2.0.4",
     "create-hmac": "^1.1.7",
     "dotenv": "^16.4.1",
     "eslint": "8.56.0",
