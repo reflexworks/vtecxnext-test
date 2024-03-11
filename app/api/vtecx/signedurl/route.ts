@@ -20,7 +20,7 @@ export const GET = async (req:NextRequest):Promise<Response> => {
   let resJson:any|undefined = undefined
   try {
     // レスポンスステータスと取得したコンテンツはvtecxnextに格納される。
-    resJson = await vtecxnext.getcontentSignedUrl(key)
+    resJson = await vtecxnext.getSignedUrlToGetContent(key)
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
@@ -59,7 +59,7 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   let resJson:any|undefined = undefined
   try {
     // レスポンスステータスと取得したコンテンツはvtecxnextに格納される。
-    resJson = await vtecxnext.getcontentSignedUrl(key)
+    resJson = await vtecxnext.getSignedUrlToPostContent(key, ext)
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
@@ -97,7 +97,7 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
   let resJson:any|undefined = undefined
   try {
     // レスポンスステータスと取得したコンテンツはvtecxnextに格納される。
-    resJson = await vtecxnext.putcontentSignedUrl(key)
+    resJson = await vtecxnext.getSignedUrlToPutContent(key)
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
