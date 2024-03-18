@@ -72,6 +72,7 @@ export const requestApi = async (method:string, apiAction:string, urlparam:strin
 export const toString = (tmpVal:any): string => {
   return tmpVal ? String(tmpVal) : ''
 }
+
 /**
  * 外部へのリクエスト
  * @param method メソッド

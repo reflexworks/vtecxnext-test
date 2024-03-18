@@ -1116,7 +1116,7 @@ const HomePage = () => {
             if (uploadfiles.length > 0) {
               const uploadfile = uploadfiles[0]
               console.log(`[doRequest] [requesttosignedurl] uploadfile=${uploadfile.name} Content-Type:${uploadfile.type} content-length:${uploadfile.size}`)
-              body = uploadfile    
+              body = uploadfile
             } else {
               console.log(`[doRequest] [requesttosignedurl] uploadfile = undefined`)
             }
