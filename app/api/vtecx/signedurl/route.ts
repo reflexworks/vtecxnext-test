@@ -53,13 +53,14 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   // キーを取得
   const key:string = vtecxnext.getParameter('key') ?? ''
   const ext:string = vtecxnext.getParameter('ext') ?? ''
-  console.log(`[api signedurl post] key=${key} ext=${ext}`)
+  const filename:string = vtecxnext.getParameter('filename') ?? ''
+  console.log(`[api signedurl post] key=${key} ext=${ext} filename=${filename}`)
   // エントリー取得
   let resStatus:number|undefined = undefined
   let resJson:any|undefined = undefined
   try {
     // レスポンスステータスと取得したコンテンツはvtecxnextに格納される。
-    resJson = await vtecxnext.getSignedUrlToPostContent(key, ext)
+    resJson = await vtecxnext.getSignedUrlToPostContent(key, ext, filename)
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
@@ -91,13 +92,14 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
 
   // キーを取得
   const key:string = vtecxnext.getParameter('key') ?? ''
-  console.log(`[api signedurl put] key=${key}`)
+  const filename:string = vtecxnext.getParameter('filename') ?? ''
+  console.log(`[api signedurl put] key=${key} filename=${filename}`)
   // エントリー取得
   let resStatus:number|undefined = undefined
   let resJson:any|undefined = undefined
   try {
     // レスポンスステータスと取得したコンテンツはvtecxnextに格納される。
-    resJson = await vtecxnext.getSignedUrlToPutContent(key)
+    resJson = await vtecxnext.getSignedUrlToPutContent(key, filename)
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {

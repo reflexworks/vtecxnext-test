@@ -798,13 +798,13 @@ const HomePage = () => {
     {
       label: 'get signed url (put content)',
       value: 'signedurl_put',
-      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}',
+      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}[&filename={ダウンロード時のファイル名}]',
       labelReqdata: '',
     },
     {
       label: 'get signed url (post content (key is numbered))',
       value: 'signedurl_post',
-      labelUrlparam: 'key={親キー}[&ext={拡張子}]',
+      labelUrlparam: 'key={親キー}[&ext={拡張子}&filename={ダウンロード時のファイル名}]',
       labelReqdata: '',
     },
     {
@@ -816,14 +816,14 @@ const HomePage = () => {
     {
       label: 'request to signed url (put content)',
       value: 'requesttosignedurl_put',
-      labelUrlparam: '{署名付きURL}',
-      labelReqdata: 'ファイルアップロードでファイルを選択する',
+      labelUrlparam: '[get signed urlで指定したものと同じ、ダウンロード時のファイル名]',
+      labelReqdata: '{署名付きURL}\nファイルアップロードでファイルを選択する',
     },
     {
       label: 'request to signed url (get content)',
       value: 'requesttosignedurl_get',
-      labelUrlparam: '{署名付きURL}',
-      labelReqdata: '',
+      labelUrlparam: '',
+      labelReqdata: '{署名付きURL}',
     },
     {
       label: 'logout',
@@ -1110,7 +1110,14 @@ const HomePage = () => {
       method = action.substring(19)
       console.log(`[doRequest] requesttosignedurl method=${method}`)
       if (method) {
-        url = urlparam
+        let filename = ''
+        if (urlparam) {
+          // ファイルの指定があればContent-Disposition
+          filename = encodeURIComponent(urlparam)
+          headers =  {'content-disposition' : `attachment; filename="${filename}"`}
+        }
+        url = reqdata
+        console.log(`[doRequest] requesttosignedurl url=${url} filename=${filename}`)
         if (method === 'put') {
           if (uploadfiles) {
             if (uploadfiles.length > 0) {
