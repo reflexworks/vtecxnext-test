@@ -643,13 +643,13 @@ const HomePage = () => {
     {
       label: 'put content',
       value: 'putcontent',
-      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}[&bysize]',
+      labelUrlparam: 'key={キー (ファイル名も含めて指定する)}[&bysize&filename={ダウンロード時のファイル名}]',
       labelReqdata: 'ファイルアップロードでファイルを選択する',
     },
     {
       label: 'post content (key is numbered)',
       value: 'postcontent',
-      labelUrlparam: 'key={親キー}[&ext={拡張子}]',
+      labelUrlparam: 'key={親キー}[&ext={拡張子}&filename={ダウンロード時のファイル名}]',
       labelReqdata: 'ファイルアップロードでファイルを選択する',
     },
     {

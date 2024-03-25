@@ -20,6 +20,7 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
   // キーを取得
   const key:string = vtecxnext.getParameter('key') ?? ''
   const bysize = vtecxnext.hasParameter('bysize')
+  const filename:string = vtecxnext.getParameter('filename') ?? ''
 
   let resStatus:number
   let resJson:any
@@ -28,8 +29,8 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
       console.log(`[api putcontent] putcontentBySize key=${key}`)
       resJson = await vtecxnext.putcontentBySize(key)
     } else {
-      console.log(`[api putcontent] putcontent key=${key}`)
-      resJson = await vtecxnext.putcontent(key)
+      console.log(`[api putcontent] putcontent key=${key}${filename ? ' filename=' + filename : ''}`)
+      resJson = await vtecxnext.putcontent(key, filename)
     }
     resStatus = 200
   } catch (error) {

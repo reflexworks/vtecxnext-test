@@ -26,7 +26,7 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   let resJson:any
   try {
     console.log(`[api postcontent] key=${key} ext=${ext} filename=${filename}`)
-    resJson = await vtecxnext.postcontent(key, ext)
+    resJson = await vtecxnext.postcontent(key, ext, filename)
     resStatus = 200
   } catch (error) {
     let resErrMsg:string
