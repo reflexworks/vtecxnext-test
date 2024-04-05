@@ -41,7 +41,7 @@ export const DELETE = async (req:NextRequest):Promise<Response> => {
       resMessage = 'Error occured.'
     }
   }
-  const feed = {feed : {'title' : resMessage}}
+  const feed ={'feed' : {'title' : resMessage}}
 
   console.log('[api deletefolder] end.')
   return vtecxnext.response(resStatus, feed) 

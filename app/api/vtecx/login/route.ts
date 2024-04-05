@@ -32,7 +32,7 @@ export const GET = async (req:NextRequest):Promise<Response> => {
       console.log(`[api login] x-wsse=${wsse}`)
       if (wsse == null) {
         console.log(`[api login] x-wsse header is required.`)
-        return vtecxnext.response(400, {feed : {title: 'Authentication is required.'}})
+        return vtecxnext.response(400,{'feed' : {title: 'Authentication is required.'}})
       }
       statusMessage = await vtecxnext.login(wsse, reCaptchaToken)
     } else {

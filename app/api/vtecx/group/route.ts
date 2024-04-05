@@ -129,11 +129,11 @@ export const GET = async (req:NextRequest):Promise<Response> => {
     } else if (type === 'isgroupmember') {
       // 指定されたグループに参加しているかどうか
       const tmp:boolean = await vtecxnext.isGroupMember(group)
-      resJson = {feed : {'title' : tmp ? 'true' : 'false'}}
+      resJson ={'feed' : {'title' : tmp ? 'true' : 'false'}}
     } else if (type === 'isadmin') {
       // サービス管理者グループに参加しているかどうか
       const tmp:boolean = await vtecxnext.isAdmin()
-      resJson = {feed : {'title' : tmp ? 'true' : 'false'}}
+      resJson ={'feed' : {'title' : tmp ? 'true' : 'false'}}
     }
     resStatus = resJson ? 200 : 204
 

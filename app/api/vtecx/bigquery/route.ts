@@ -87,7 +87,7 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
       resStatus = 503
       resErrMsg = 'Error occured.'
     }
-    resJson = {feed : {'title' : resErrMsg}}
+    resJson ={'feed' : {'title' : resErrMsg}}
   }
   console.log('[api bigquery put] end.')
   return vtecxnext.response(resStatus, resJson)
