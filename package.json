@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/node": "20.14.2",
+    "@types/node": "20.14.9",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@vtecx/vtecxauth": "^1.0.2",
@@ -17,16 +17,16 @@
     "create-hmac": "^1.1.7",
     "dotenv": "^16.4.1",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.2.3",
+    "eslint-config-next": "14.2.4",
     "firebase": "^10.12.2",
-    "next": "14.2.3",
+    "next": "14.2.4",
     "nookies": "^2.5.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-google-recaptcha-v3": "^1.10.1",
     "react-iframe": "^1.8.5",
     "react-select": "^5.8.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   },
   "devDependencies": {
     "@types/create-hmac": "^1.1.3"
