@@ -302,6 +302,24 @@ const HomePage = () => {
       }]`,
     },
     {
+      label: 'post bdb + bigquery (bdbq)',
+      value: 'bdbq_post',
+      labelUrlparam: '[key={親キー}&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelReqdata: 'feed',
+    },
+    {
+      label: 'put bdb + bigquery (bdbq)',
+      value: 'bdbq_put',
+      labelUrlparam: '[key={親キー}&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelReqdata: 'feed',
+    },
+    {
+      label: 'delete bdb + bigquery (bdbq)',
+      value: 'bdbq_delete',
+      labelUrlparam: 'key={キー[,キー,...]}[&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelReqdata: '',
+    },
+    {
       label: 'exec rdb',
       value: 'rdb_put_exec',
       labelUrlparam: '',
@@ -945,10 +963,17 @@ const HomePage = () => {
       if (method === 'post' || method === 'put') {
         body = reqdata
       }
-      if (method === 'put' && urlparam.indexOf('csv') > -1) {
+      if ((method === 'put' || method === 'get') && urlparam.indexOf('csv') > -1) {
+        console.log(`[doRequest] 'bigquery_${method}' & 'csv'`)
         isJson = false
         const idx = urlparam.indexOf('csv') + 4
         filename = urlparam.substring(idx)
+      }
+    } else if (action.startsWith('bdbq_')) {
+      method = action.substring(5)
+      apiAction = 'bdbq'
+      if (method === 'post' || method === 'put') {
+        body = reqdata
       }
     } else if (action === 'pdf') {
       method = 'PUT'
@@ -1139,7 +1164,7 @@ const HomePage = () => {
       if (!data) {
         console.log(`[doRequest] data is null.`)
         setResult(`no data.`)
-      } else if (isJson || 'feed' in data) {
+      } else if (isJson) {
         const feedStr = JSON.stringify(data)
         console.log(`[doRequest] data=${feedStr}`)
         setResult(feedStr)

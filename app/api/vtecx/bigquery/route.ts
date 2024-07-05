@@ -192,20 +192,20 @@ export const DELETE = async (req:NextRequest):Promise<Response> => {
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError || error instanceof ApiRouteTestError) {
-      console.log(`[api bigquery post] Error occured. status=${error.status} ${error.message}`)
+      console.log(`[api bigquery delete] Error occured. status=${error.status} ${error.message}`)
       resStatus = error.status
       resErrMsg = error.message
     } else {
-      console.log(`[api bigquery post] Error occured. (not VtecxNextError) ${error}`)
+      console.log(`[api bigquery delete] Error occured. (not VtecxNextError) ${error}`)
       if (error instanceof Error) {
-        console.log(`[api bigquery post] ${error.stack}`)
+        console.log(`[api bigquery delete] ${error.stack}`)
       }
       resStatus = 503
       resErrMsg = 'Error occured.'
     }
     resJson = {'feed' : {'title' : resErrMsg}}
   }
-  console.log('[api bigquery post] end.')
+  console.log('[api bigquery delete] end.')
   return vtecxnext.response(resStatus, resJson) 
 }
 

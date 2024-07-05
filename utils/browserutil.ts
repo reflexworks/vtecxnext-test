@@ -43,6 +43,8 @@ export const requestApi = async (method:string, apiAction:string, urlparam:strin
       if (!contentType || contentType.startsWith('application/json')) {
         data = await response.json()
         console.log(`[requestApi] data(json) = ${JSON.stringify(data)}`)
+      } else if (!contentType || contentType.startsWith('text/csv')) {
+        data = await response.blob()
       } else if (!contentType || contentType.startsWith('text/')) {
         data = await response.text()
         console.log(`[requestUrl] data(text) = ${data}`)
@@ -146,3 +148,4 @@ export const requestUrl = async (method:string, url:string, body?:any, headers?:
   }
   return data
 }
+
