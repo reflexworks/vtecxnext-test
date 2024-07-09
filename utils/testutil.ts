@@ -201,6 +201,61 @@ export const isString = (a: unknown): a is string => {
   return typeof a === 'string'
 }
 
+/**
+ * Entryからキーを取得
+ *   link.___rel = 'self' の link.___href の値を返す。
+ * @param entry Entry
+ * @returns キー
+ */
+export const getUri = (entry:any):string|undefined => {
+  if (entry && entry.link) {
+    for (const link of entry.link) {
+      if (link.___rel === 'self') {
+        return link.___href
+      }
+    }
+  }
+  return undefined
+}
+
+/**
+ * entryにキーを設定.
+ *   link.___rel='self'の'___href'にキーを設定する。
+ * @param entry Entry
+ * @param uri キー
+ * @returns キーを設定したEntry
+ */
+export const setLinkUri = (entry:any, uri:string):any => {
+  if (!uri) {
+    return entry
+  }
+  let retEntry:any
+  if (entry) {
+    retEntry = entry
+  } else {
+    retEntry = {}
+  }
+  let idx:number|undefined
+  if (!retEntry.link) {
+    retEntry.link = []
+  } else {
+    const len = retEntry.link.length
+    for (let i = 0; i < len; i++) {
+      const tmpLink = retEntry.link[i]
+      if (tmpLink.___rel === 'self') {
+        idx = i
+      }
+    }
+  }
+  if (idx === undefined) {
+    retEntry.link.push({'___rel' : 'self', '___href' : uri})
+  } else {
+    retEntry.link[idx].___href = uri
+  }
+  //console.log(`[setLinkUri] retEntry=${JSON.stringify(retEntry)}`)
+  return retEntry
+}
+
 // --------------------------------------
 /**
  * Error returned from api route test
