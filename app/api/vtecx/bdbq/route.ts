@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { VtecxNext, VtecxNextError } from 'utils/vtecxnext'
+import { VtecxNext, VtecxNextError } from '@vtecx/vtecxnext'
 import { ApiRouteTestError } from 'utils/testutil'
 import * as testutil from 'utils/testutil'
 
