@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import * as browserutil from 'utils/browserutil'
 import { Header } from 'components/header'
+import { AdduserInfo } from 'utils/testutil'
 
 /**
  * ページ関数
@@ -29,13 +30,22 @@ import { Header } from 'components/header'
     const param = reCaptchaToken ? `g-recaptcha-token=${reCaptchaToken}` : ''
     const linkurl = `${process.env.NEXT_PUBLIC_VTECXNEXT_URL}/vtecx_changepass`
     const loginpage = `${process.env.NEXT_PUBLIC_VTECXNEXT_URL}/vtecx_login`
+    const emailSubject = '[vtecxnextテスト] パスワード変更のご案内'
+    const emailText = `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nこのメールは、vtecxnextテストサービス から配信されています。\nこのメールに心当たりのない方は破棄お願いします。\nこのメールにご返信できませんのでご了承ください。\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n以下のURLをクリックしてパスワード変更を行ってください。\n\n${linkurl}?\${PASSRESET_TOKEN}\n\n設定が完了いたしますと、新しいパスワードでサービスがご利用できるようになります。\n\nこちらのリンクはご登録より24時間を過ぎますとクリック時にエラーになります。\nその場合はお手数ではございますが再度お申込みからお願いいたします。\n\nログインページ ${loginpage}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nvte.cx\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+    /*
     const reqJson:any = [{
       'contributor': [{
         'uri': `urn:vte.cx:auth:${username}`
       }],
-      'title': '[vtecxnextテスト] パスワード変更のご案内',
-      'summary': `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nこのメールは、vtecxnextテストサービス から配信されています。\nこのメールに心当たりのない方は破棄お願いします。\nこのメールにご返信できませんのでご了承ください。\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n以下のURLをクリックしてパスワード変更を行ってください。\n\n${linkurl}?\${PASSRESET_TOKEN}\n\n設定が完了いたしますと、新しいパスワードでサービスがご利用できるようになります。\n\nこちらのリンクはご登録より24時間を過ぎますとクリック時にエラーになります。\nその場合はお手数ではございますが再度お申込みからお願いいたします。\n\nログインページ ${loginpage}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nvte.cx\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+      'title': emailSubject,
+      'summary': emailText,
     }]
+      */
+    const reqJson:AdduserInfo = {
+      'username': username,
+      'emailSubject': emailSubject,
+      'emailText': emailText,
+    }
 
     const reqData = JSON.stringify(reqJson)
     console.log(`[passreset] reqData = ${reqData}`)

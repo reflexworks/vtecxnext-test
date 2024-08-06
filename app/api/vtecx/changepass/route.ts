@@ -39,7 +39,11 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   let resJson:any
   try {
     console.log(`[api changepass] vtecxnext.passreset start.`)
-    resJson = await vtecxnext.changepass(data)
+
+    const pass:string = data.newpswd ?? ''
+    const oldpass = data.oldpswd
+    const passresetToken = data.passresetToken
+    resJson = await vtecxnext.changepass(pass, oldpass, passresetToken)
     resStatus = 200
   } catch (error) {
     let resErrMsg:string

@@ -1,4 +1,11 @@
-import { VtecxNext } from '@vtecx/vtecxnext'
+import { VtecxNext, AdduserInfo as AdduserInfo_V, CreateGroupadminInfo } from 'utils/vtecxnext'
+
+export type AdduserInfo = AdduserInfo_V
+export type ChangepassInfo = {
+  newpswd:string, 
+  oldpswd?:string, 
+  passresetToken?:string,
+}
 
 /**
  * 値をstring型で返す.
@@ -255,6 +262,7 @@ export const setLinkUri = (entry:any, uri:string):any => {
   //console.log(`[setLinkUri] retEntry=${JSON.stringify(retEntry)}`)
   return retEntry
 }
+
 
 // --------------------------------------
 /**

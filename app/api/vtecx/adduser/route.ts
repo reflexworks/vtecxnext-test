@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server'
-import { VtecxNext, VtecxNextError } from '@vtecx/vtecxnext'
+import { VtecxNext, VtecxNextError, AdduserInfo as AdduserInfo_V } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
+
+export type AdduserInfo = AdduserInfo_V
 
 /**
  * POSTメソッド
@@ -38,7 +40,7 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   let resStatus:number
   let resJson:any
   try {
-    console.log(`[api adduser] vtecxnext.adduser start.`)
+    console.log(`[api adduser] vtecxnext.adduser start. data = ${JSON.stringify(data)}`)
     const reCaptchaToken:string = vtecxnext.getParameter('g-recaptcha-token') ?? ''
     resJson = await vtecxnext.adduser(data, reCaptchaToken)
     resStatus = 200

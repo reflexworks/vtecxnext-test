@@ -446,9 +446,41 @@ const HomePage = () => {
       labelReqdata: '',
     },
     {
+      label: 'add group',
+      value: 'group_post_add',
+      labelUrlparam: 'group={グループキー}[&selfid={グループエイリアスの末尾名}]',
+      labelReqdata: '',
+    },
+    {
+      label: 'add group by admin',
+      value: 'group_post_addbyadmin',
+      labelUrlparam: 'group={グループキー}[&selfid={グループエイリアスの末尾名}]',
+      //labelReqdata: '[{"link": [{"___rel": "self", "___href": "/_user/{UID}"}]}, ...]',
+      labelReqdata: '{"uids": ["{UID}", ...]}',
+    },
+    {
+      label: 'create group admin',
+      value: 'group_post_creategroupadmin',
+      labelUrlparam: '',
+      /*
+      labelReqdata: `
+      [
+          {
+              "link": [
+                  {"___rel": "self", "___href": "/_group/{グループ名}"},
+                  {"___rel": "via", "___title": "{グループ管理者のUID}"}, ...
+              ]
+          },
+          ...
+      ]
+      `,
+      */
+      labelReqdata: `[{"group": "{グループ名}", "uids": ["{UID}", ...]} ...]`,
+    },
+    {
       label: 'join group',
       value: 'group_put',
-      labelUrlparam: 'group={グループ}&selfid={グループエイリアスの末尾名})',
+      labelUrlparam: 'group={グループ}[&selfid={グループエイリアスの末尾名}]',
       labelReqdata: '',
     },
     {
@@ -491,6 +523,7 @@ const HomePage = () => {
       label: 'adduser by admin',
       value: 'user_post_adduserbyadmin',
       labelUrlparam: '',
+      /*
       labelReqdata: `
       [
         {
@@ -509,11 +542,66 @@ const HomePage = () => {
         ...
       ]
       `,
+      */
+      labelReqdata: `[
+        {
+          "username": "{メールアドレス}",
+          "pswd": "{パスワード}",
+          "nickname": "{ニックネーム(任意)}",
+          "emailSubject": "{メールのタイトル(任意)}",
+          "emailText": "{テキストメール本文(任意)}",
+          "emailHtml": "{HTMLメール本文(任意)}"
+        },
+        ...
+      ]`
+    },
+    {
+      label: 'adduser by group admin',
+      value: 'user_post_adduserbygroupadmin',
+      labelUrlparam: 'group={グループ名}',
+      /*
+      labelReqdata: `
+      [
+        {
+          "contributor": [
+              {
+                  "uri": "urn:vte.cx:auth:{メールアドレス},{パスワード}",
+                  "name": "{ニックネーム}"
+              }
+          ],
+          "title": "メールのタイトル(任意)",
+          "summary": "テキストメール本文(任意)",
+          "content": {
+              "______text": "HTMLメール本文(任意)"
+          }
+        },
+        ...
+      ]
+      `,
+      */
+      labelReqdata: `[
+        {
+          "username": "{メールアドレス}",
+          "pswd": "{パスワード}",
+          "nickname": "{ニックネーム(任意)}",
+          "emailSubject": "{メールのタイトル(任意)}",
+          "emailText": "{テキストメール本文(任意)}",
+          "emailHtml": "{HTMLメール本文(任意)}"
+        },
+        ...
+      ]`
+    },
+    {
+      label: 'changepass',
+      value: 'user_put_changepass',
+      labelUrlparam: '',
+      labelReqdata: `{"newpswd": "{新パスワード}", "oldpswd": "{旧パスワード}"}`
     },
     {
       label: 'changepass by admin',
       value: 'user_put_changepassbyadmin',
       labelUrlparam: '',
+      /*
       labelReqdata: `
       [
         {
@@ -531,11 +619,14 @@ const HomePage = () => {
         }
       ]
       `,
+      */
+      labelReqdata: `[{"uid": "{UID}", "pswd": "{パスワード}"}, ...]`,
     },
     {
       label: 'change account',
       value: 'user_put_changeaccount',
       labelUrlparam: '',
+      /*
       labelReqdata: `
       [
         {
@@ -552,6 +643,13 @@ const HomePage = () => {
         }
       ]
       `,
+      */
+      labelReqdata: `{
+          "username": "{メールアドレス}",
+          "emailSubject": "{メールのタイトル(任意)}",
+          "emailText": "{テキストメール本文(任意)}",
+          "emailHtml": "{HTMLメール本文(任意)}"
+        }`
     },
     {
       label: 'change account verify',
@@ -581,6 +679,7 @@ const HomePage = () => {
       label: 'revoke users',
       value: 'user_put_revokeusers',
       labelUrlparam: '',
+      /*
       labelReqdata: `(アカウント・UIDいずれかを指定) 
       [
         {
@@ -595,6 +694,13 @@ const HomePage = () => {
         ...
       ]
       `,
+      */
+      labelReqdata: `(アカウント・UIDいずれかを指定) 
+      {
+        "accounts" : ["{アカウント}", ...],
+        "uids" : ["{UID}", ...],
+      }
+      `,
     },
     {
       label: 'activate user',
@@ -606,6 +712,7 @@ const HomePage = () => {
       label: 'activate users',
       value: 'user_put_activateusers',
       labelUrlparam: '',
+      /*
       labelReqdata: `(アカウント・UIDいずれかを指定) 
       [
         {
@@ -619,6 +726,13 @@ const HomePage = () => {
         },
         ...
       ]
+      `,
+      */
+      labelReqdata: `(アカウント・UIDいずれかを指定) 
+      {
+        "accounts" : ["{アカウント}", ...],
+        "uids" : ["{UID}", ...],
+      }
       `,
     },
     {
@@ -637,6 +751,7 @@ const HomePage = () => {
       label: 'delete users',
       value: 'user_put_deleteusers',
       labelUrlparam: '',
+      /*
       labelReqdata: `(アカウント・UIDいずれかを指定) 
       [
         {
@@ -650,6 +765,13 @@ const HomePage = () => {
         },
         ...
       ]
+      `,
+      */
+      labelReqdata: `(アカウント・UIDいずれかを指定) 
+      {
+        "accounts" : ["{アカウント}", ...],
+        "uids" : ["{UID}", ...],
+      }
       `,
     },
     {
@@ -1019,8 +1141,13 @@ const HomePage = () => {
       }
       method = tmpAction.substring(0, idx)
       additionalParam = `type=${tmpAction.substring(idx + 1)}`
-      apiAction = 'group'
       console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
+      if (method) {
+        apiAction = 'group'
+        if (method === 'post' || method === 'put') {
+          body = reqdata
+        }
+      }
     } else if (action.startsWith('info_')) {
       method = 'GET'
       apiAction = 'info'

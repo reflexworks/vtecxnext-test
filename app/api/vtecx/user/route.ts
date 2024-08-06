@@ -95,6 +95,9 @@ export const POST = async (req:NextRequest):Promise<Response> => {
   try {
     if (type === 'adduserbyadmin') {
       resJson = await vtecxnext.adduserByAdmin(data)
+    } else if (type === 'adduserbygroupadmin') {
+      const group:string = vtecxnext.getParameter('group') ?? ''
+      resJson = await vtecxnext.adduserByGroupadmin(data, group)
     } else {
       console.log(`[api user post] invalid type. type=${type}`)
       throw new ApiRouteTestError(400, `[user] invalid type. type=${type}`)
@@ -159,6 +162,11 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
   try {
     if (type === 'changepassbyadmin') {
       resJson = await vtecxnext.changepassByAdmin(data)
+    } else if (type === 'changepass') {
+      const pass:string = data.newpswd ?? ''
+      const oldpass = data.oldpswd
+      const passresetToken = data.passresetToken
+        resJson = await vtecxnext.changepass(pass, oldpass, passresetToken)
     } else if (type === 'changeaccount') {
       resJson = await vtecxnext.changeaccount(data)
     } else if (type === 'changeaccount_verify') {
@@ -166,13 +174,13 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
     } else if (type === 'revokeuser') {
       resJson = await vtecxnext.revokeuser(vtecxnext.getParameter('account') ?? '')
     } else if (type === 'revokeusers') {
-      resJson = await vtecxnext.revokeusers(data)
+      resJson = await vtecxnext.revokeusers(data.accounts, data.uids)
     } else if (type === 'activateuser') {
       resJson = await vtecxnext.activateuser(vtecxnext.getParameter('account') ?? '')
     } else if (type === 'activateusers') {
-      resJson = await vtecxnext.activateusers(data)
+      resJson = await vtecxnext.activateusers(data.accounts, data.uids)
     } else if (type === 'deleteusers') {  // API RouteではDELETEメソッドでリクエストデータを受け取れなかった
-      resJson = await vtecxnext.deleteusers(data)
+      resJson = await vtecxnext.deleteusers(data.accounts, data.uids)
     } else if (type === 'mergeoauthuser_line') {
       resJson = await mergeoauthuserLine(vtecxnext, vtecxnext.getParameter('account') ?? '', vtecxnext.getParameter('pass') ?? '')
     } else {

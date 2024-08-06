@@ -5,6 +5,7 @@ import { getHashpass } from '@vtecx/vtecxauth'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import * as browserutil from 'utils/browserutil'
 import { Header } from 'components/header'
+import { AdduserInfo } from 'utils/testutil'
 
 /**
  * ページ関数
@@ -32,13 +33,23 @@ import { Header } from 'components/header'
     const param = reCaptchaToken ? `g-recaptcha-token=${reCaptchaToken}` : ''
     const linkurl = `${process.env.NEXT_PUBLIC_VTECXNEXT_URL}/vtecx_signup_completion`
     const toppage = `${process.env.NEXT_PUBLIC_VTECXNEXT_URL}/vtecx_login`
+    const emailSubject = '[vtecxnextテスト] ユーザ登録のご案内'
+    const emailText = `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nこのメールは、vtecxnextテストサービス から配信されています。\nこのメールに心当たりのない方は破棄お願いします。\nこのメールにご返信できませんのでご了承ください。\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nこの度は、vtecxnextテストサービス にお申込みいただき、ありがとうございました。\n以下のURLをクリックして本登録を完了してください。\n\n${linkurl}?_RXID=\${RXID}\n\nこちらのリンクはご登録より24時間を過ぎますとクリック時にエラーになります。\nその場合はお手数ではございますが再度お申込みからお願いいたします。\nトップページ ${toppage}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nvte.cx\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+    /*
     const reqJson:any = [{
       'contributor': [{
         'uri': `urn:vte.cx:auth:${username},${passhash}`
       }],
-      'title': '[vtecxnextテスト] ユーザ登録のご案内',
-      'summary': `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nこのメールは、vtecxnextテストサービス から配信されています。\nこのメールに心当たりのない方は破棄お願いします。\nこのメールにご返信できませんのでご了承ください。\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nこの度は、vtecxnextテストサービス にお申込みいただき、ありがとうございました。\n以下のURLをクリックして本登録を完了してください。\n\n${linkurl}?_RXID=\${RXID}\n\nこちらのリンクはご登録より24時間を過ぎますとクリック時にエラーになります。\nその場合はお手数ではございますが再度お申込みからお願いいたします。\nトップページ ${toppage}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nvte.cx\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+      'title': emailSubject,
+      'summary': emailText,
     }]
+    */
+    const reqJson:AdduserInfo = {
+      'username': username,
+      'pswd': passhash,
+      'emailSubject': emailSubject,
+      'emailText': emailText,
+    }
 
     const reqData = JSON.stringify(reqJson)
     console.log(`[adduser] reqData = ${reqData}`)

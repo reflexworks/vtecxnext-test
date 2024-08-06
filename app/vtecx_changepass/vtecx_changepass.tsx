@@ -6,6 +6,7 @@ import Link from 'next/link'
 import * as browserutil from 'utils/browserutil'
 import { Props, useApi as urlParam } from './useapi'
 import { Header } from 'components/header'
+import { ChangepassInfo } from 'utils/testutil'
 
 /**
  * ページ関数
@@ -27,6 +28,7 @@ const HomePage = () => {
     console.log('[changepass] start.')
     const method = 'POST'
     const apiAction = 'changepass'
+    /*
     const reqJson:any = [{
       'contributor': [
         {
@@ -37,6 +39,11 @@ const HomePage = () => {
         },
       ]
     }]
+    */
+    const reqJson:ChangepassInfo = {
+      'newpswd': passhash,
+      'passresetToken': props.passreset_token,
+    }
 
     const reqData = JSON.stringify(reqJson)
     console.log(`[changepass] reqData = ${reqData}`)
