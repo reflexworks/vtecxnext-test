@@ -262,7 +262,7 @@ const HomePage = () => {
     {
       label: 'post bigquery',
       value: 'bigquery_post',
-      labelUrlparam: '[_async&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelUrlparam: '[async&tablenames={エンティティの第一階層名}:{テーブル名},...]',
       labelReqdata: 'feed',
     },
     {
@@ -478,6 +478,12 @@ const HomePage = () => {
       labelReqdata: `[{"group": "{グループ名}", "uids": ["{UID}", ...]} ...]`,
     },
     {
+      label: 'delete group admin',
+      value: 'group_delete_groupadmin',
+      labelUrlparam: '[async]',
+      labelReqdata: `{"group": ["{グループ名}", ...]}`,
+    },
+    {
       label: 'join group',
       value: 'group_put',
       labelUrlparam: 'group={グループ}[&selfid={グループエイリアスの末尾名}]',
@@ -485,7 +491,7 @@ const HomePage = () => {
     },
     {
       label: 'leave group',
-      value: 'group_delete',
+      value: 'group_delete_leave',
       labelUrlparam: 'group={グループ}',
       labelReqdata: '',
     },
@@ -1144,7 +1150,7 @@ const HomePage = () => {
       console.log(`[doRequest] method=${method} additionalParam=${additionalParam}`)
       if (method) {
         apiAction = 'group'
-        if (method === 'post' || method === 'put') {
+        if (method === 'post' || method === 'put' || method === 'delete') {
           body = reqdata
         }
       }

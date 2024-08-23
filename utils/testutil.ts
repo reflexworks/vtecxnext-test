@@ -1,4 +1,4 @@
-import { VtecxNext, AdduserInfo as AdduserInfo_V, CreateGroupadminInfo } from 'utils/vtecxnext'
+import { VtecxNext, AdduserInfo as AdduserInfo_V, CreateGroupadminInfo } from '@vtecx/vtecxnext'
 
 export type AdduserInfo = AdduserInfo_V
 export type ChangepassInfo = {
@@ -220,6 +220,22 @@ export const getUri = (entry:any):string|undefined => {
       if (link.___rel === 'self') {
         return link.___href
       }
+    }
+  }
+  return undefined
+}
+
+/**
+ * Entryのidからキーを取得
+ *   リビジョンを除いたキー部分を返却する
+ * @param entry Entry
+ * @returns キー
+ */
+export const getIdUri = (entry:any):string|undefined => {
+  if (entry && entry.id) {
+    const idx = entry.id.indexOf(',')
+    if (idx > -1) {
+      return entry.id.substring(0, idx)
     }
   }
   return undefined

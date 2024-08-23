@@ -145,17 +145,42 @@ export const DELETE = async (req:NextRequest):Promise<Response> => {
   }
 
   // パラメータを取得
+  const type:string = vtecxnext.getParameter('type') ?? ''
   const group = vtecxnext.getParameter('group') ?? ''
-  const selfid = vtecxnext.getParameter('selfid') ?? ''
-  console.log(`[api group delete] group=${group} selfid=${selfid}`)
+  console.log(`[api group delete] type=${type} group=${group}`)
+
+  // リクエストJSON取得
+  const contentLength:number = testutil.toNumber(req.headers.get('content-length'), 0)
+  let data:any
+  if (contentLength > 0) {
+    try {
+      data = await req.json()
+    } catch (error) {
+      let resErrMsg:string
+      if (error instanceof Error) {
+        resErrMsg = `${error.name}: ${error.message}`
+      } else {
+        resErrMsg = 'Error occured by req.json()'
+      }
+      return vtecxnext.response(400, {'feed' : {'title' : resErrMsg}})
+    }
+  }
+
   // グループ操作
   let resStatus:number = 200
   let resJson:any
   try {
+    if (type === 'leave') {
       // グループ退会
-      await vtecxnext.leaveGroup(group)
-      const message = `left the group. ${group}`
-      resJson = {'feed' : {'title' : message}}
+      resJson = await vtecxnext.leaveGroup(group)
+    } else if (type === 'groupadmin') {
+      const async:boolean = vtecxnext.hasParameter('async')
+      // グループ管理用グループ削除
+      resJson = await vtecxnext.deleteGroupadmin(data.group, async)
+    } else {
+      console.log(`[api group delete] invalid type. type=${type}`)
+      throw new ApiRouteTestError(400, `[group] invalid type. type=${type}`)
+    } 
 
   } catch (error) {
     let resErrMsg:string
@@ -214,6 +239,9 @@ export const GET = async (req:NextRequest):Promise<Response> => {
       // サービス管理者グループに参加しているかどうか
       const tmp:boolean = await vtecxnext.isAdmin()
       resJson ={'feed' : {'title' : tmp ? 'true' : 'false'}}
+    } else {
+      console.log(`[api group get] invalid type. type=${type}`)
+      throw new ApiRouteTestError(400, `[group] invalid type. type=${type}`)
     }
     resStatus = resJson ? 200 : 204
 
