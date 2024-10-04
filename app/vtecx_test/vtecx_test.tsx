@@ -248,7 +248,7 @@ const HomePage = () => {
       value: 'paging_pagination',
       labelUrlparam: 'key={キー}&_pagination={ページ範囲}',
       labelReqdata: `[{
-        "title" : "「検索条件(任意)」",
+        "title" : "「検索条件(任意)」"
       }] (feed に entry 1件のみ)`,
     },
     {
@@ -256,7 +256,15 @@ const HomePage = () => {
       value: 'paging_getpage',
       labelUrlparam: 'key={キー}&n={ページ番号}',
       labelReqdata: `[{
-        "title" : "「検索条件(任意)」",
+        "title" : "「検索条件(任意)」"
+      }] (feed に entry 1件のみ)`,
+    },
+    {
+      label: 'practical paging',
+      value: 'paging_practical',
+      labelUrlparam: 'key={キー}&n={ページ番号}',
+      labelReqdata: `[{
+        "title" : "「検索条件(任意)」"
       }] (feed に entry 1件のみ)`,
     },
     {
@@ -1082,7 +1090,12 @@ const HomePage = () => {
         }
       }
     } else if (action.startsWith('paging_')) {
-      method = 'POST'
+      const type = action.substring(7)
+      if (type === 'practical') {
+        method = 'PUT'
+      } else {
+        method = 'POST'
+      }
       apiAction = 'paging'
       body = reqdata
     } else if (action.startsWith('bigquery_')) {
