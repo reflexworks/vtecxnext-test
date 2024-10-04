@@ -260,7 +260,7 @@ const HomePage = () => {
       }] (feed に entry 1件のみ)`,
     },
     {
-      label: 'practical paging',
+      label: 'get page with pagination',
       value: 'paging_practical',
       labelUrlparam: 'key={キー}&n={ページ番号}',
       labelReqdata: `[{
