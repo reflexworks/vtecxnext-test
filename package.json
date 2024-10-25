@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@vtecx/vtecxauth": "^1.0.2",
-    "@vtecx/vtecxnext": "^2.2.7",
+    "@vtecx/vtecxnext": "^2.2.8",
     "create-hmac": "^1.1.7",
     "dotenv": "^16.4.5",
     "firebase": "^11.0.1",
