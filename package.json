@@ -13,7 +13,7 @@
     "@vtecx/vtecxnext": "^2.2.10",
     "create-hmac": "^1.1.7",
     "dotenv": "^16.4.5",
-    "firebase": "^10.13.2",
+    "firebase": "^11.0.1",
     "next": "15.0.1",
     "nookies": "^2.5.2",
     "react": "18.3.1",
