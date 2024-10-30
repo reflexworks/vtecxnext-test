@@ -980,6 +980,12 @@ const HomePage = () => {
       labelReqdata: '{署名付きURL}',
     },
     {
+      label: 'property',
+      value: 'property',
+      labelUrlparam: 'name={プロパティ名}',
+      labelReqdata: '',
+    },
+    {
       label: 'logout',
       value: 'logout',
       labelUrlparam: '',
@@ -1059,7 +1065,7 @@ const HomePage = () => {
         action === 'isloggedin' || action === 'logout' || 
         action === 'getentry' ||
         action === 'allocids' || action === 'getids' || action === 'getrangeids' ||
-        action === 'sendmessage' || action === 'healthcheck') {
+        action === 'sendmessage' || action === 'healthcheck' || action === 'property') {
       method = 'GET'
       apiAction = action
     } else if (action === 'log' || action === 'postentry' || action === 'sendmail' ||
