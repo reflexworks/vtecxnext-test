@@ -504,6 +504,13 @@ const HomePage = () => {
       labelReqdata: '',
     },
     {
+      label: 'leave group by admin',
+      value: 'group_delete_leavebyadmin',
+      labelUrlparam: 'group={グループキー}',
+      //labelReqdata: '[{"link": [{"___rel": "self", "___href": "/_user/{UID}"}]}, ...]',
+      labelReqdata: '{"uids": ["{UID}", ...]}',
+    },
+    {
       label: 'no group member',
       value: 'group_get_nogroupmember',
       labelUrlparam: 'group={グループのエイリアス(/_user/{UID}/group)}',

@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { VtecxNext, VtecxNextError } from '@vtecx/vtecxnext'
+import { VtecxNext, VtecxNextError, isVtecxNextError } from '@vtecx/vtecxnext'
 import * as testutil from 'utils/testutil'
 import { ApiRouteTestError } from 'utils/testutil'
 
@@ -66,7 +66,11 @@ export const POST = async (req:NextRequest):Promise<Response> => {
 
   } catch (error) {
     let resErrMsg:string
-    if (error instanceof VtecxNextError || error instanceof ApiRouteTestError) {
+    if (isVtecxNextError(error)) {
+      console.log(`[api group post] Error occured. status=${error.status} ${error.message}`)
+      resStatus = error.status
+      resErrMsg = error.message
+    } else if (error instanceof ApiRouteTestError) {
       console.log(`[api group post] Error occured. status=${error.status} ${error.message}`)
       resStatus = error.status
       resErrMsg = error.message
@@ -173,6 +177,9 @@ export const DELETE = async (req:NextRequest):Promise<Response> => {
     if (type === 'leave') {
       // グループ退会
       resJson = await vtecxnext.leaveGroup(group)
+    } else if (type === 'leavebyadmin') {
+      // グループ管理用グループ削除
+      resJson = await vtecxnext.leaveGroupByAdmin(data.uids, group)
     } else if (type === 'groupadmin') {
       const async:boolean = vtecxnext.hasParameter('async')
       // グループ管理用グループ削除
