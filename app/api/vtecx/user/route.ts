@@ -29,7 +29,13 @@ export const GET = async (req:NextRequest):Promise<Response> => {
   let resJson:any
   try {
     if (type === 'userstatus') {
-      resJson = await vtecxnext.userstatus(vtecxnext.getParameter('account') ?? '')
+      const account = vtecxnext.getParameter('account')
+      const tmpResult = await vtecxnext.userstatus(account)
+      if (account && tmpResult) {
+        resJson = {'feed' : {'title' : tmpResult}}
+      } else {
+        resJson = tmpResult
+      }
       resStatus = resJson ? 200 : 204
     } else {
       console.log(`[api user get] invalid type. type=${type}`)
