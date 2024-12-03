@@ -693,13 +693,13 @@ const HomePage = () => {
     {
       label: 'revoke user',
       value: 'user_put_revokeuser',
-      labelUrlparam: 'account={アカウント}',
+      labelUrlparam: 'account={アカウント}[&deletegroups]',
       labelReqdata: '',
     },
     {
       label: 'revoke users',
       value: 'user_put_revokeusers',
-      labelUrlparam: '',
+      labelUrlparam: '[deletegroups]',
       /*
       labelReqdata: `(アカウント・UIDいずれかを指定) 
       [
@@ -759,7 +759,7 @@ const HomePage = () => {
     {
       label: 'cancel user',
       value: 'user_delete_canceluser',
-      labelUrlparam: '',
+      labelUrlparam: '[deletegroups]',
       labelReqdata: '',
     },
     {

@@ -178,9 +178,11 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
     } else if (type === 'changeaccount_verify') {
       resJson = await vtecxnext.changeaccount_verify(vtecxnext.getParameter('verify') ?? '')
     } else if (type === 'revokeuser') {
-      resJson = await vtecxnext.revokeuser(vtecxnext.getParameter('account') ?? '')
+      const isDeleteGroups = vtecxnext.hasParameter('deletegroups')
+      resJson = await vtecxnext.revokeuser(vtecxnext.getParameter('account') ?? '', isDeleteGroups)
     } else if (type === 'revokeusers') {
-      resJson = await vtecxnext.revokeusers(data.accounts, data.uids)
+      const isDeleteGroups = vtecxnext.hasParameter('deletegroups')
+      resJson = await vtecxnext.revokeusers(data.accounts, data.uids, isDeleteGroups)
     } else if (type === 'activateuser') {
       resJson = await vtecxnext.activateuser(vtecxnext.getParameter('account') ?? '')
     } else if (type === 'activateusers') {
@@ -237,7 +239,8 @@ export const DELETE = async (req:NextRequest):Promise<Response> => {
   let resJson:any
   try {
     if (type === 'canceluser') {
-      resJson = await vtecxnext.canceluser()
+      const isDeleteGroups = vtecxnext.hasParameter('deletegroups')
+      resJson = await vtecxnext.canceluser(isDeleteGroups)
     } else if (type === 'deleteuser') {
       resJson = await vtecxnext.deleteuser(vtecxnext.getParameter('account') ?? '')
     } else {
