@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { useReCaptcha } from 'next-recaptcha-v3'
 import { getAuthToken } from '@vtecx/vtecxauth'
 import * as browserutil from 'utils/browserutil'
 import { Props } from './servercomponent'
@@ -18,8 +18,8 @@ const HomePage = ({now}:Props) => {
   const [onetimePswrd, setOnetimePswrd] = useState('')
   const [isTrustedDevice, setTrustedDevice] = useState<boolean>(false)
   const [result, setResult] = useState('')
-  // ホームページ関数内で定義
-  const { executeRecaptcha } = useGoogleReCaptcha()
+  // Import 'executeRecaptcha' using 'useReCaptcha' hook
+  const { executeRecaptcha } = useReCaptcha()
 
   /**
    * ログインリクエスト
@@ -71,7 +71,7 @@ const HomePage = ({now}:Props) => {
       return
     }
     // reCAPTCHAトークンを取得
-    const reCaptchaToken = executeRecaptcha? await executeRecaptcha('contactPage') : ''
+    const reCaptchaToken = executeRecaptcha? await executeRecaptcha('login') : ''
     // WSSEを生成
     const wsse = getAuthToken(username, pswrd)
     // ログイン

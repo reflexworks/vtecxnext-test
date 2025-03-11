@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { getHashpass } from '@vtecx/vtecxauth'
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { useReCaptcha } from 'next-recaptcha-v3'
 import * as browserutil from 'utils/browserutil'
 import { Header } from 'components/header'
 import { AdduserInfo } from 'utils/testutil'
@@ -16,7 +16,7 @@ import { AdduserInfo } from 'utils/testutil'
   const [pswrd, setPswrd] = useState('')
   const [result, setResult] = useState('')
   // ホームページ関数内で定義
-  const { executeRecaptcha } = useGoogleReCaptcha()
+  const { executeRecaptcha } = useReCaptcha()
 
   /**
    * ユーザ登録リクエスト
@@ -67,7 +67,7 @@ import { AdduserInfo } from 'utils/testutil'
     // 結果表示欄をクリア
     setResult('')
     // reCAPTCHAトークンを取得
-    const reCaptchaToken = executeRecaptcha? await executeRecaptcha('contactPage') : ''
+    const reCaptchaToken = executeRecaptcha? await executeRecaptcha('adduser') : ''
     // パスワードをハッシュ化
     const passhash = getHashpass(pswrd)
     // ユーザ登録

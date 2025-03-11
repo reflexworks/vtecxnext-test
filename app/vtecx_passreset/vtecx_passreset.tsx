@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { useReCaptcha } from 'next-recaptcha-v3'
 import * as browserutil from 'utils/browserutil'
 import { Header } from 'components/header'
 import { AdduserInfo } from 'utils/testutil'
@@ -14,7 +14,7 @@ import { AdduserInfo } from 'utils/testutil'
   const [username, setUsername] = useState('')
   const [result, setResult] = useState('')
   // ホームページ関数内で定義
-  const { executeRecaptcha } = useGoogleReCaptcha()
+  const { executeRecaptcha } = useReCaptcha()
 
   /**
    * パスワード変更のためのメール送信リクエスト
@@ -63,7 +63,7 @@ import { AdduserInfo } from 'utils/testutil'
     // 結果表示欄をクリア
     setResult('')
     // reCAPTCHAトークンを取得
-    const reCaptchaToken = executeRecaptcha? await executeRecaptcha('contactPage') : ''
+    const reCaptchaToken = executeRecaptcha? await executeRecaptcha('passreset') : ''
     // ユーザ登録
     const retStr = await passreset(username, reCaptchaToken)
     // 結果表示
