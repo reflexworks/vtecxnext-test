@@ -118,6 +118,12 @@ const HomePage = () => {
       labelReqdata: '',
     },
     {
+      label: 'delete entries',
+      value: 'deleteentries',
+      labelUrlparam: '[isbulk&parallel&async]',
+      labelReqdata: 'feed',
+    },
+    {
       label: 'delete folder',
       value: 'deletefolder',
       labelUrlparam: 'key={親キー}[&async]',
@@ -1081,7 +1087,7 @@ const HomePage = () => {
       body = reqdata
       apiAction = action
     } else if (action === 'putentry' || action === 'addids' || action === 'setids' || 
-        action === 'rangeids') {
+        action === 'rangeids' || action === 'deleteentries') {
       method = 'PUT'
       body = reqdata
       apiAction = action

@@ -8,7 +8,7 @@ import * as testutil from 'utils/testutil'
  * @returns レスポンス
  */
 export const PUT = async (req:NextRequest):Promise<Response> => {
-  console.log(`[api putentry] start. x-requested-with=${req.headers.get('x-requested-with')}`)
+  console.log(`[api deleteentries] start. x-requested-with=${req.headers.get('x-requested-with')}`)
 
   const vtecxnext = new VtecxNext(req)
 
@@ -41,7 +41,7 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
   } else if ('feed' in feed && 'entry' in feed.feed) {
     cnt = feed.feed.entry.length
   }
-  console.log(`[api putentry] count of entries=${cnt}`)
+  console.log(`[api deleteentries] count of entries=${cnt}`)
 
   let resStatus:number
   let resJson:any
@@ -50,24 +50,24 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
     const parallel = vtecxnext.hasParameter('parallel')
     const async = vtecxnext.hasParameter('async')
     const targetservice:string = vtecxnext.getParameter('targetservice') ?? ''
-    console.log(`[api putentry] isbulk=${isbulk} parallel=${parallel} async=${async} ${targetservice ? 'targetservice=' + targetservice : ''}`)
+    console.log(`[api deleteentries] isbulk=${isbulk} parallel=${parallel} async=${async} ${targetservice ? 'targetservice=' + targetservice : ''}`)
   
-    resJson = await vtecxnext.put(feed, isbulk, parallel, async, targetservice)
+    resJson = await vtecxnext.deleteEntries(feed, isbulk, parallel, async, targetservice)
     resStatus = 200
   } catch (error) {
     let resErrMsg:string
     if (error instanceof VtecxNextError) {
-      console.log(`[api putentry] Error occured. status=${error.status} ${error.message}`)
+      console.log(`[api deleteentries] Error occured. status=${error.status} ${error.message}`)
       resStatus = error.status
       resErrMsg = error.message
     } else {
-      console.log(`[api putentry] Error occured. (not VtecxNextError) ${error}`)
+      console.log(`[api deleteentries] Error occured. (not VtecxNextError) ${error}`)
       resStatus = 503
       resErrMsg = 'Error occured.'
     }
     resJson = {'feed' : {'title' : resErrMsg}}
   }
 
-  console.log('[api putentry] end.')
+  console.log(`[api deleteentries] end. resJson = ${JSON.stringify(resJson)}`)
   return vtecxnext.response(resStatus, resJson)
 }
