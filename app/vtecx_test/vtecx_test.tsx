@@ -318,19 +318,19 @@ const HomePage = () => {
     {
       label: 'post bdb + bigquery (bdbq)',
       value: 'bdbq_post',
-      labelUrlparam: '[key={親キー}&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelUrlparam: '[key={親キー}&async&tablenames={エンティティの第一階層名}:{テーブル名},...]',
       labelReqdata: 'feed',
     },
     {
       label: 'put bdb + bigquery (bdbq)',
       value: 'bdbq_put',
-      labelUrlparam: '[key={親キー}&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelUrlparam: '[key={親キー}&async&isbulk&tablenames={エンティティの第一階層名}:{テーブル名},...]',
       labelReqdata: 'feed',
     },
     {
       label: 'delete bdb + bigquery (bdbq)',
       value: 'bdbq_delete',
-      labelUrlparam: 'key={キー[,キー,...]}[&tablenames={エンティティの第一階層名}:{テーブル名},...]',
+      labelUrlparam: 'key={キー[,キー,...]}[&async&tablenames={エンティティの第一階層名}:{テーブル名},...]',
       labelReqdata: '',
     },
     {

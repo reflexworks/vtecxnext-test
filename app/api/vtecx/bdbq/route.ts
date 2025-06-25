@@ -42,9 +42,10 @@ export const POST = async (req:NextRequest):Promise<Response> => {
     // BDB更新+BigQuery登録
     const key:string = vtecxnext.getParameter('key') ?? ''
     const tablenamesStr:string = vtecxnext.getParameter('tablenames') ?? ''
-    console.log(`[api bdbq post] postBq. key=${key} tablenamesStr=${tablenamesStr}`)
+    const async = vtecxnext.hasParameter('async')
+    console.log(`[api bdbq post] postBq. key=${key} tablenamesStr=${tablenamesStr} async=${String(async)}`)
     const tablenames:any = testutil.getBqTablenames(tablenamesStr)
-    resJson = await vtecxnext.postBDBQ(data, key, tablenames)
+    resJson = await vtecxnext.postBDBQ(data, key, tablenames, async)
     resStatus = 200
 
   } catch (error) {
@@ -106,9 +107,11 @@ export const PUT = async (req:NextRequest):Promise<Response> => {
     // BDB更新+BigQuery登録
     const key:string = vtecxnext.getParameter('key') ?? ''
     const tablenamesStr:string = vtecxnext.getParameter('tablenames') ?? ''
-    console.log(`[api bdbq put] putBq. key=${key} tablenamesStr=${tablenamesStr}`)
+    const async = vtecxnext.hasParameter('async')
+    const isbulk = vtecxnext.hasParameter('isbulk')
+    console.log(`[api bdbq put] putBq. key=${key} tablenamesStr=${tablenamesStr} async=${String(async)} isbulk=${String(isbulk)}}`)
     const tablenames:any = testutil.getBqTablenames(tablenamesStr)
-    resJson = await vtecxnext.putBDBQ(data, key, tablenames)
+    resJson = await vtecxnext.putBDBQ(data, key, tablenames, async, isbulk)
     resStatus = 200
 
   } catch (error) {
@@ -154,8 +157,9 @@ export const DELETE = async (req:NextRequest):Promise<Response> => {
     const tmpKey:string = vtecxnext.getParameter('key') ?? ''
     const keys:string[] = tmpKey.split(',')
     const tablenamesStr:string = vtecxnext.getParameter('tablenames') ?? ''
+    const async = vtecxnext.hasParameter('async')
     const tablenames:any = testutil.getBqTablenames(tablenamesStr)
-    const result = await vtecxnext.deleteBDBQ(keys, tablenames)
+    const result = await vtecxnext.deleteBDBQ(keys, tablenames, async)
     const message = `delete bdbq. result=${result}`
     resJson = {'feed' : {'title' : message}}
     resStatus = 200
