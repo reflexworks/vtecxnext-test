@@ -9,7 +9,7 @@ export const now = async (): Promise<string> => {
   if (!data) {
     console.log(`[now] data is null.`)
     result = `no data.`
-  } else if ('feed' in data) {
+  } else if (data.hasOwnProperty('feed')) {
     const feedStr = JSON.stringify(data)
     console.log(`[now] data=${feedStr}`)
     result = data.feed.title
